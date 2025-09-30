@@ -1,0 +1,26 @@
+/* src/index.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto Serif", serif;
+  background: #fcf8f1; /* soft cream parchment */
+  color: #3e2f1c;      /* deep library brown */
+}
+
+.App {
+  background: #fcf8f1; /* warm antique cream */
+  color: #2a1c0f;      /* rich coffee text */
+  font-family: "Poltawski Nowy", serif;
+}
+
+.main-content {
+  padding-top: 0; 
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  background: #F5E6CA; 
+}

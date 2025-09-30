@@ -1,0 +1,104 @@
+/* ================= Popular Books Section ================= */
+/* This section displays top popular books in a horizontal scroll view */
+
+.popular-section {
+  position: relative;
+  padding: 40px 8%;  /* spacing around the section */
+  background: #fcf8f1;   /* warm parchment background */
+  margin-bottom: 20px;     /* gap below section */
+}
+
+/* Section title styling */
+.section-title {
+  font-family: "Poltawski Nowy", serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #3b2d1f;   /* dark brown text */
+  text-align: left; /* align heading to the left */
+}
+
+/* Horizontal scroll container */
+.scroll-container {
+  display: flex;  /* horizontal layout */
+  gap: 24px;  /* spacing between book cards */
+  overflow-x: auto; /* enable horizontal scroll */
+  scroll-behavior: smooth;  /* smooth scrolling */
+  padding-bottom: 12px;  /* space below cards */
+}
+
+/* Hide scrollbar for cleaner look */
+.scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Each individual book wrapper */
+.book-wrapper {
+  flex: 0 0 220px; /* fixed width per book */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scroll buttons for left/right navigation */
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%); /* vertically center button */
+  border: none;
+  background: rgba(59, 45, 31, 0.8); 
+  color: #fff;
+  font-size: 1.4rem;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  z-index: 10;  /* keep above books */
+}
+
+/* Position left/right buttons */
+.scroll-btn.left { left: 12px; }
+.scroll-btn.right { right: 12px; }
+
+/* Hover effect for scroll buttons */
+.scroll-btn:hover { background: rgba(59, 45, 31, 0.95); }
+
+/* Loading text styling */
+.loading-text {
+  padding: 20px;
+  color: #7a6b5b;
+  font-weight: 500;
+}
+
+/* Mobile Responsiveness */
+
+/* Tablet screens */
+@media (max-width: 1024px) {
+  .book-wrapper { flex: 0 0 180px; } /* adjust book width */
+  .scroll-container { gap: 16px; }   /* smaller gap */
+}
+
+/* Mobile screens */
+@media (max-width: 768px) {
+  .book-wrapper { flex: 0 0 100%; }  /* one book per view */
+  .scroll-container { gap: 12px; }
+  .scroll-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 1.2rem;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .book-wrapper { flex: 0 0 100%; }
+  .scroll-container { gap: 10px; }
+  .scroll-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
+  }
+}

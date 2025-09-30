@@ -1,0 +1,151 @@
+/* ================= Trending Genres Section ================= */
+/* Section displays top genres with horizontal scroll and decorative SVG background */
+
+.trending-genres-section {
+  position: relative;
+  padding: 40px 8% 40px;
+  background: #FAF3E0; 
+  overflow: hidden;
+}
+
+/* Decorative curvy SVG background at top */
+.curvy-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 180px;
+  z-index: 0;
+}
+.curvy-background svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Section title with icon */
+.section-title {
+  font-family: "Poltawski Nowy", serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #2C1810;         
+  text-align: left;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  z-index: 1;            
+}
+
+/* Icon next to title */
+.section-icon {
+  color: #C49E69;       
+  font-size: 1.6rem;
+}
+
+/* Horizontal scroll container for genre cards */
+.genre-scroll-container {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding-bottom: 15px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+  z-index: 1;
+}
+
+/* Hide horizontal scrollbar */
+.genre-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Individual genre card */
+.genre-card {
+  background: #F5E6CA;          
+  border-radius: 8px;
+  box-shadow: 0 8px 15px rgba(62, 39, 35, 0.2);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  border: 1px solid #D7CCC8;
+  aspect-ratio: 3 / 4;            
+  flex: 0 0 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Hover effect for genre card */
+.genre-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 12px 24px rgba(196, 158, 105, 0.35);
+  border-color: #C49E69;        
+}
+
+/* Genre image inside card */
+.genre-image {
+  flex: 1;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Genre name below image */
+.genre-name {
+  font-family: "Poltawski Nowy", serif;
+  font-size: 1rem;
+  color: #2C1810;
+  font-weight: 600;
+  text-align: center;
+  padding: 10px;
+  background: #FAF3E0;
+  border-top: 1px solid #D7CCC8;
+}
+
+/* Scroll buttons for genre section */
+.scroll-btn {
+  position: absolute;
+  top: 55%;
+  transform: translateY(-50%);
+  border: none;
+  background: rgba(62, 39, 35, 0.85);
+  color: #fff;
+  font-size: 1.2rem;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  z-index: 10;
+}
+.scroll-btn.left { left: 10px; }
+.scroll-btn.right { right: 10px; }
+.scroll-btn:hover { background: rgba(62, 39, 35, 0.95); }
+
+/* Mobile Responsiveness */
+
+/* Tablet screens */
+@media (max-width: 1024px) {
+  .genre-card { flex: 0 0 180px; }
+  .section-title { font-size: 1.5rem; }
+}
+
+/* Mobile screens */
+@media (max-width: 768px) {
+  .genre-card { flex: 0 0 100%; }  /* single card per view */
+  .section-title { font-size: 1.3rem; }
+  .genre-name { font-size: 0.95rem; }
+  .scroll-btn { top: 60%; }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .genre-card { flex: 0 0 100%; }
+  .section-title { font-size: 1.2rem; }
+  .genre-name { font-size: 0.9rem; padding: 8px; }
+}
