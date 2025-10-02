@@ -11,20 +11,6 @@
   padding: 20px; /* padding inside grid container */
 }
 
-/* Tablet responsiveness */
-@media (max-width: 1024px) {
-  .book-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
-  }
-}
-
-/* Mobile responsiveness */
-@media (max-width: 600px) {
-  .book-grid {
-    grid-template-columns: 1fr; /* 1 card per row */
-  }
-}
-
 /* individual Book Card */
 .book-card {
   display: flex;
@@ -158,4 +144,51 @@
 .view-btn:hover {
   transform: translateY(-3px); /* lift button */
   box-shadow: 0 8px 18px rgba(64, 40, 20, 0.15); /* subtle shadow on hover */
+}
+
+/* Book Grid on small mobile */
+@media (max-width: 480px) {
+  .book-grid {
+    grid-template-columns: 1fr; /* single column */
+    gap: 20px; /* tighter spacing */
+    padding: 12px;
+  }
+
+  .book-card {
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  /* Book Cover */
+  .cover-wrap {
+    height: 220px; /* smaller height */
+    margin-bottom: 10px;
+  }
+  .book-cover {
+    border-radius: 10px;
+  }
+
+  /* Title & Author */
+  .book-title {
+    font-size: 0.95rem;
+    line-height: 1.2;
+    min-height: auto;
+  }
+  .book-author {
+    font-size: 0.8rem;
+  }
+
+  /* Favorite Heart Button */
+  .heart-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+
+  /* Action Button */
+  .view-btn {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+    border-radius: 10px;
+  }
 }

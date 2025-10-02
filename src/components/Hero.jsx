@@ -22,12 +22,12 @@ const Hero = () => {
         <div className="hero-content">
           {/* Main heading */}
           <h1 data-aos="fade-right" data-aos-delay="200">
-            Discover Your Next Favorite Book
+            Unlock Stories That Stay With You
           </h1>
 
           {/* Subheading / description */}
           <p data-aos="fade-left" data-aos-delay="400">
-            Search, explore, and save books from every genre all in one place.
+            From hidden gems to bestsellers, explore books that speak to you.
           </p>
 
           {/*Search Bar */}

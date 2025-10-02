@@ -73,32 +73,31 @@
   font-weight: 500;
 }
 
-/* Mobile Responsiveness */
-
-/* Tablet screens */
-@media (max-width: 1024px) {
-  .book-wrapper { flex: 0 0 180px; } /* adjust book width */
-  .scroll-container { gap: 16px; }   /* smaller gap */
-}
-
-/* Mobile screens */
-@media (max-width: 768px) {
-  .book-wrapper { flex: 0 0 100%; }  /* one book per view */
-  .scroll-container { gap: 12px; }
-  .scroll-btn {
-    width: 34px;
-    height: 34px;
-    font-size: 1.2rem;
-  }
-}
-
-/* Small mobile */
+/* Small Mobile Responsiveness */
 @media (max-width: 480px) {
-  .book-wrapper { flex: 0 0 100%; }
-  .scroll-container { gap: 10px; }
+  .popular-section {
+    padding: 24px 12px;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    text-align: center; /* center title on small screens */
+    margin-bottom: 16px;
+  }
+
+  .scroll-container {
+    gap: 12px;
+    padding-bottom: 8px;
+  }
+
+  .book-wrapper {
+    flex: 0 0 75%; /* show larger book card on swipe */
+    margin: auto;
+  }
+
   .scroll-btn {
-    width: 30px;
-    height: 30px;
-    font-size: 1rem;
+    width: 28px;
+    height: 28px;
+    font-size: 0.9rem;
   }
 }

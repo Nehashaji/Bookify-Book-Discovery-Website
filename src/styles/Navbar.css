@@ -3,13 +3,13 @@
 
 /* Main Navbar Container */
 .navbar {
-  display: flex; /* horizontal layout for children */
+  display: flex; 
   justify-content: space-between;/* push logo left and links/auth right */
   align-items: center; /* vertically center items */
   padding: 1rem 3rem;  /* spacing inside navbar */
   height: 70px;  /* fixed navbar height */
-  background: #3E2723; /* deep brown background */
-  position: sticky;    /* stays at top on scroll */
+  background: #3E2723;
+  position: sticky;/* stays at top on scroll */
   top: 0;
   z-index: 1000; /* ensures navbar is above other content */
   box-shadow: 0 2px 8px rgba(0,0,0,0.3); 
@@ -23,7 +23,7 @@
 }
 
 .nav-logo .logo-img {
-  width: 150px; /* fixed width */
+  width: 180px; /* fixed width */
   height: auto;
   object-fit: contain; /* maintain aspect ratio */
 }

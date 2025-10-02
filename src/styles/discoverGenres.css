@@ -1,0 +1,123 @@
+/* -------- Discover Genres Section -------- */
+.genre-section {
+  padding: 0.5rem 2.5rem 4rem 2.5rem; /* slightly more horizontal padding */
+  background: #F5E6CA; /* Antique parchment color */
+  color: #1e1a1a;
+  text-align: left;
+  position: relative;
+  z-index: 1;
+}
+
+/* Section Header */
+.genre-header {
+  font-family: "Poltawski Nowy", serif;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #5e4631; 
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+/* Horizontal Scrollable Buttons Container */
+.genre-buttons {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 1rem 0.7rem; 
+  scroll-behavior: smooth;
+}
+
+.genre-btn {
+  position: relative;
+  padding: 0.8rem 1.6rem; /* slightly larger buttons */
+  border: 2px solid #d4af37;
+  border-radius: 50px;
+  background: #fff;
+  color: #5e4631;
+  font-family: "Roboto Serif", serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  transform-origin: center;
+}
+
+.genre-btn:hover,
+.genre-btn.active {
+  background: linear-gradient(90deg, #d4af37 0%, #f5c518 100%);
+  color: #1e1a1a;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.genre-btn::after {
+  display: none;
+}
+
+/* Book Grid */
+.genre-book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.7rem;
+  margin-top: 2rem;
+}
+
+/* No books message */
+.no-books {
+  font-family: "Roboto Serif", serif;
+  font-size: 1rem;
+  color: #5e4631;
+  margin-top: 1rem;
+}
+
+/* -------- Loading Spinner -------- */
+.loading {
+  font-family: "Roboto Serif", serif;
+  font-size: 1.2rem;
+  color: #5e4631;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.spinner {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #d4af37;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .genre-section {
+    padding: 1.5rem 1rem 2.5rem 1rem;
+    border-radius: 10px;
+  }
+
+  .genre-header {
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+    text-align: center;
+  }
+
+  .genre-buttons {
+    gap: 0.6rem;
+    padding: 0.6rem 0.2rem;
+  }
+
+  .genre-btn {
+    padding: 0.55rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .genre-book-grid {
+    grid-template-columns: repeat(2, 1fr); /* clean 2-column on phones */
+    gap: 1rem;
+  }
+}
