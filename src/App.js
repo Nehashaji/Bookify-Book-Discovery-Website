@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import BookModal from "./components/BookModal";
-import HomePage from "./pages/HomePage";       // Home page
+import HomePage from "./pages/HomePage";       
 import DiscoverPage from "./pages/DiscoverPage";
 import "./App.css";
 
@@ -10,11 +10,12 @@ function App() {
   const [selectedBook, setSelectedBook] = useState(null);
   const [favorites, setFavorites] = useState([]);
 
-  // --- Handlers ---
+  // ✅ Create ref for "My Shelf" link
+  const shelfRef = useRef(null);
+
   const handleView = (book) => setSelectedBook(book);
   const handleClose = () => setSelectedBook(null);
 
-  // Toggle favorite
   const handleFav = (book) => {
     setFavorites((prev) => {
       const exists = prev.some((b) => b.id === book.id);
@@ -25,7 +26,6 @@ function App() {
       }
     });
 
-    // Update modal state if currently open
     if (selectedBook && selectedBook.id === book.id) {
       setSelectedBook({ ...book, fav: !favorites.some((b) => b.id === book.id) });
     }
@@ -33,22 +33,19 @@ function App() {
 
   return (
     <div className="App font-sans">
-      <Navbar />
+      {/* ✅ Pass shelfRef as prop */}
+      <Navbar ref={shelfRef} />
 
       <main className="main-content">
         <Routes>
-          {/* Home Page */}
           <Route
             path="/"
-            element={<HomePage onView={handleView} onFav={handleFav} />}
+            element={<HomePage onView={handleView} onFav={handleFav} shelfRef={shelfRef} />}
           />
-
-          {/* Discover Page */}
           <Route path="/discover" element={<DiscoverPage />} />
         </Routes>
       </main>
 
-      {/* Book Modal */}
       {selectedBook && (
         <BookModal
           book={selectedBook}

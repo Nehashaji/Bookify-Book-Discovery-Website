@@ -127,8 +127,6 @@
 .scroll-btn.right { right: 10px; }
 .scroll-btn:hover { background: rgba(62, 39, 35, 0.95); }
 
-/* Mobile Responsiveness */
-
 /* Tablet screens */
 @media (max-width: 1024px) {
   .genre-card { flex: 0 0 180px; }

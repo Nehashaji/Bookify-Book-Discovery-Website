@@ -1,0 +1,72 @@
+/* Main CTA section styling */
+.cta-section {
+  /* Dark overlay on top of library background image */
+  background: 
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('../assets/library.jpeg') center/cover no-repeat;
+  color: #FAF3E0;         /* Light text color for readability */
+  text-align: center;
+  padding: 100px 20px;
+  position: relative;
+}
+
+/* Overlay effect to ensure readability */
+.cta-section::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+/* Content container sits above overlay */
+.cta-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Heading styling */
+.cta-section h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #FAF3E0;
+}
+
+/* Subtitle text */
+.cta-section p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: #D7CCC8; 
+}
+
+/* Primary button */
+.cta-section .btn-primary {
+  background-color: #C49E69; 
+  color: #2C1810;            
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Button hover effect */
+.cta-section .btn-primary:hover {
+  background: linear-gradient(135deg, #D7CCC8, #C49E69);
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+  .cta-section h2 { font-size: 2rem; }
+  .cta-section p { font-size: 1rem; }
+  .cta-section .btn-primary {
+    padding: 12px 25px;
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,103 @@
+/*footer wrapper */
+.footer {
+  background-color: #FAF3E0; 
+  color: #4E342E;           
+  padding: 60px 20px 20px 20px;
+  font-family: 'Roboto Serif', serif;
+}
+
+/* Container with flexible layout */
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;  
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Each section (About, Support, Follow) */
+.footer-section {
+  flex: 1;
+  min-width: 250px;
+}
+
+/* Section headings */
+.footer-section h3 {
+  font-size: 1.5rem;
+  color: #3E2723;   
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+/* Paragraph text inside sections */
+.footer-section p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #4E342E;
+  font-weight: 400;
+}
+
+/* Support links list */
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+/* Hover color for links */
+.footer-section ul li:hover {
+  color: #C49E69; 
+}
+
+/* Social media icons */
+.social-icons {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.social-icons a {
+  color: #3E2723; 
+  font-size: 1.2rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effects for icons */
+.social-icons a:hover {
+  color: #C49E69; 
+  transform: scale(1.1);
+}
+
+/* Bottom copyright */
+.footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid #6D4C41; 
+  margin-top: 40px;
+  font-size: 0.9rem;
+  color: #4E342E;
+}
+
+/* Responsive layout for mobile */
+@media (max-width: 900px) {
+  .footer-container {
+    flex-direction: column; /* stack vertically */
+    text-align: center;
+    gap: 30px;
+  }
+
+  .footer-section {
+    min-width: 100%;
+  }
+
+  .social-icons {
+    justify-content: center; /* center icons on mobile */
+  }
+}

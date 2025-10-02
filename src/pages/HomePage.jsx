@@ -1,26 +1,20 @@
-// HomePage.jsx
 import React from "react";
 import Hero from "../components/Hero";
 import PopularBooks from "../components/PopularBooks";
 import TrendingGenres from "../components/TrendingGenres";
+import WhyChooseUs from "../components/WhyChooseUs";
+import CTASection from "../components/CTASection";
+import Footer from "../components/Footer";
 
-/**
- * HomePage - Displays Hero section, Popular Books, and Trending Genres
- * Props:
- *   onView(book) - callback to open modal for a book
- *   onFav(book)  - callback to toggle favorites
- */
-const HomePage = ({ onView, onFav }) => {
+const HomePage = ({ onView, onFav, shelfRef }) => {
   return (
     <div>
-      {/* Hero Section */}
       <Hero />
-
-      {/* Popular Books Section */}
-      <PopularBooks onView={onView} onFav={onFav} />
-
-      {/* Trending Genres Section */}
+      <PopularBooks onView={onView} onFav={onFav} shelfRef={shelfRef} />
       <TrendingGenres onView={onView} onFav={onFav} />
+      <WhyChooseUs />
+      <CTASection />
+      <Footer />
     </div>
   );
 };

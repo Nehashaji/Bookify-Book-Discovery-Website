@@ -67,6 +67,19 @@
   text-shadow: 0 0 6px rgba(196,158,105,0.4); /* subtle glow */
 }
 
+.shelf-glow {
+  position: relative;
+  display: inline-block;
+  color: #FFD700;
+  animation: shelf-burst 0.5s ease-out forwards;
+}
+
+@keyframes shelf-burst {
+  0% { transform: scale(1); text-shadow: none; }
+  50% { transform: scale(1.2); text-shadow: 0 0 15px #FFD700, 0 0 30px #FFA500; }
+  100% { transform: scale(1); text-shadow: 0 0 5px #FFD700; }
+}
+
 /* Desktop Auth Buttons */
 .nav-auth {
   display: flex;

@@ -10,7 +10,7 @@ import "aos/dist/aos.css";
 import { FaShapes, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 // Import placeholder images for genres
-import fictionImg from "../assets/fiction.jpeg";
+import fictionImg from "../assets/fiction.png";
 import mysteryImg from "../assets/mystery.jpeg";
 import thrillerImg from "../assets/thriller.jpeg";
 import scifiImg from "../assets/science.jpeg";
