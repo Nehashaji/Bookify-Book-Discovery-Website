@@ -7,13 +7,13 @@
 
 body {
   font-family: "Roboto Serif", serif;
-  background: #fcf8f1; /* soft cream parchment */
-  color: #3e2f1c;      /* deep library brown */
+  background: #fcf8f1; 
+  color: #3e2f1c;    
 }
 
 .App {
-  background: #fcf8f1; /* warm antique cream */
-  color: #2a1c0f;      /* rich coffee text */
+  background: #fcf8f1;
+  color: #2a1c0f;      
   font-family: "Poltawski Nowy", serif;
 }
 

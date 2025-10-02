@@ -30,8 +30,8 @@ const Navbar = forwardRef((props, shelfRef) => {
 
       {/* Desktop Navigation Links */}
       <ul className="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Discover</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/discover">Discover</a></li>
         {/* Attached the forwarded ref to My Shelf */}
         <li><a href="#" ref={shelfRef}>My Shelf</a></li>
         <li><a href="#">Profile</a></li>
@@ -53,7 +53,7 @@ const Navbar = forwardRef((props, shelfRef) => {
         <ul>
           <li><a href="#" onClick={() => setMenuOpen(false)}>Home</a></li>
           <li><a href="#" onClick={() => setMenuOpen(false)}>Discover</a></li>
-          <li><a href="#" onClick={() => setMenuOpen(false)}>Favorites</a></li>
+          <li><a href="#" onClick={() => setMenuOpen(false)}>My Shelf</a></li>
           <li><a href="#" onClick={() => setMenuOpen(false)}>Profile</a></li>
         </ul>
         <div className="mobile-auth">

@@ -136,12 +136,12 @@
 /* Book Description */
 .modal-description {
   max-height: 240px;
-  overflow-y: auto; /* scroll if content is too long */
+  overflow-y: auto; 
   line-height: 1.6;
   font-size: 0.95rem;
   color: #2e261b;
   margin-bottom: 12px;
-  padding-right: 6px; /* prevent text clipping */
+  padding-right: 6px; 
 }
 
 /* Preview Link */
@@ -158,34 +158,100 @@
   background: #946c3d;
 }
 
-/* Responsive Design */
-/* Tablets */
-@media (max-width: 820px) {
-  .modal-content {
-    flex-direction: column; /* stack cover + details vertically */
-    padding: 18px;
-  }
-  .modal-left {
-    flex-direction: row; /* show cover and button side by side */
-    gap: 14px;
-    align-items: center;
-  }
-  .modal-cover {
-    width: 140px;
-    height: 200px;
-  }
-}
-
-/* Moblie responsive */
-@media (max-width: 420px) {
+/* Mobile layout for Book Modal */
+@media (max-width: 480px) {
   .modal-container {
-    border-radius: 12px;
+    border-radius: 14px;
+    max-width: 90%;  
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
   }
+
+  .modal-content {
+    flex-direction: column; 
+    padding: 18px 14px;
+    gap: 20px; 
+  }
+
+  /* Cover + Heart */
+  .modal-left {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
   .modal-cover {
-    width: 120px;
-    height: 170px;
+    width: 160px;
+    height: 230px;
+    border-radius: 10px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
   }
+
+  /* Title + Author */
   .modal-title {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+
+  .modal-author {
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-align: center;
+    color: #6b4c2f;
+    margin-bottom: 10px;
+  }
+
+  /* Meta info (publisher, rank etc.) */
+  .meta-row {
+    justify-content: center;
+    gap: 12px;
+    font-size: 0.85rem;
+    color: #5a4635;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .meta-item {
+    background: #f8f4ec;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+  }
+
+  /* Description */
+  .modal-description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #2f261b;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 4px;
+    margin-bottom: 10px;
+  }
+
+  /* Buttons */
+  .fav-btn,
+  .modal-link {
+    width: 100%; 
+    justify-content: center;
+    font-size: 0.95rem;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+
+  .fav-btn {
+    margin-bottom: 10px;
+  }
+
+  /* Smooth Scroll inside modal */
+  .modal-description::-webkit-scrollbar {
+    width: 4px;
+  }
+  .modal-description::-webkit-scrollbar-thumb {
+    background: #c1a782;
+    border-radius: 4px;
   }
 }
