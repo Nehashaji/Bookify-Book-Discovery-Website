@@ -40,7 +40,7 @@ function App() {
     if (selectedBook && selectedBook.id === book.id) {
       setSelectedBook({
         ...selectedBook,
-        fav: !exists, // ✅ use the computed value
+        fav: !exists, 
       });
     }
   };

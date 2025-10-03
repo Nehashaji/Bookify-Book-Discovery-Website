@@ -1,34 +1,39 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";  // import for reading query params
 import "../styles/discoverGenres.css"; 
 import BookCard from "./BookCard";     
-import AOS from "aos";                  // Animate On Scroll library
+import AOS from "aos";
 import "aos/dist/aos.css";              
 
-// List of genres available for filtering books
+// Genres to display
 const GENRES = [
-  "Fantasy",
+  "Fiction",
   "Mystery",
-  "Romance",
+  "Thriller",
   "Science Fiction",
-  "History",
-  "Self-Help",
+  "Fantasy",
+  "Romance",
+  "Horror",
+  "Historical",
 ];
 
 const DiscoverGenres = ({ onView, onFav, shelfRef, favorites }) => {
-  const [books, setBooks] = useState([]);           // Stores currently displayed books for the selected genre
-  const [activeGenre, setActiveGenre] = useState(""); // Tracks which genre button is currently active
-  const [loading, setLoading] = useState(false);   // Loading state for spinner while fetching books
+  const [books, setBooks] = useState([]);           
+  const [activeGenre, setActiveGenre] = useState(""); 
+  const [loading, setLoading] = useState(false);   
 
-  // Initialize AOS animations on component mount
+  const location = useLocation(); // get URL params
+
+  // Initialize AOS animations
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
 
-  // Function to fetch books from Google Books API based on selected genre
+  // Function to fetch books by genre
   const fetchBooksByGenre = async (genre) => {
-    setActiveGenre(genre); // Set active genre for button highlight
-    setBooks([]);          // Clear current books while fetching new ones
-    setLoading(true);      // Show loading spinner
+    setActiveGenre(genre);
+    setBooks([]);
+    setLoading(true);
 
     try {
       const response = await fetch(
@@ -37,7 +42,6 @@ const DiscoverGenres = ({ onView, onFav, shelfRef, favorites }) => {
       const data = await response.json();
 
       if (data.items) {
-        // Format API data to match BookCard props
         const formattedBooks = data.items.map((item) => ({
           id: item.id,
           title: item.volumeInfo.title || "Unknown Title",
@@ -47,29 +51,27 @@ const DiscoverGenres = ({ onView, onFav, shelfRef, favorites }) => {
           image:
             item.volumeInfo.imageLinks?.thumbnail ||
             "https://via.placeholder.com/200x300?text=No+Image",
-          fav: favorites.some((b) => b.id === item.id), // Checks if this book is already in favorites
+          fav: favorites.some((b) => b.id === item.id),
           rating: item.volumeInfo.averageRating || "N/A",
           description: item.volumeInfo.description || "No description available",
           previewLink: item.volumeInfo.previewLink || null,
         }));
 
-        setBooks(formattedBooks); // Updates state with formatted books
+        setBooks(formattedBooks);
       } else {
-        setBooks([]); // No books returned for this genre
+        setBooks([]);
       }
     } catch (error) {
       console.error("Error fetching books:", error);
-      setBooks([]); // Handles API errors gracefully
+      setBooks([]);
     } finally {
-      setLoading(false); // Stops loading spinner once fetch is complete
+      setLoading(false);
     }
   };
 
-  // Handle favorite toggle when user clicks heart in BookCard or BookModal
+  // Sync favorites state
   const handleFavClick = (book) => {
-    onFav(book); // Updates favorites in parent (App.js)
-
-    // Updates local books state to immediately reflect heart toggle on BookCard
+    onFav(book); 
     setBooks((prevBooks) =>
       prevBooks.map((b) =>
         b.id === book.id ? { ...b, fav: !b.fav } : b
@@ -77,15 +79,28 @@ const DiscoverGenres = ({ onView, onFav, shelfRef, favorites }) => {
     );
   };
 
-  // Keep local books' favorite status synced with global favorites from App.js
   useEffect(() => {
     setBooks((prevBooks) =>
       prevBooks.map((b) => ({
         ...b,
-        fav: favorites.some((f) => f.id === b.id), // Mark as favorite if in global favorites
+        fav: favorites.some((f) => f.id === b.id),
       }))
     );
   }, [favorites]);
+
+  // On first load, checks if URL has ?genre= and auto-fetch
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const genreFromURL = params.get("genre");
+
+    if (genreFromURL) {
+      const formattedGenre =
+        genreFromURL.charAt(0).toUpperCase() + genreFromURL.slice(1);
+      if (GENRES.includes(formattedGenre)) {
+        fetchBooksByGenre(formattedGenre);
+      }
+    }
+  }, [location.search]); // run whenever URL query changes
 
   return (
     <section className="genre-section" data-aos="fade-up">
@@ -96,36 +111,34 @@ const DiscoverGenres = ({ onView, onFav, shelfRef, favorites }) => {
         {GENRES.map((genre) => (
           <button
             key={genre}
-            className={`genre-btn ${activeGenre === genre ? "active" : ""}`} // Highlight active genre
-            onClick={() => fetchBooksByGenre(genre)} // Fetch books for clicked genre
+            className={`genre-btn ${activeGenre === genre ? "active" : ""}`}
+            onClick={() => fetchBooksByGenre(genre)}
           >
             {genre}
           </button>
         ))}
       </div>
 
-      {/* Loading spinner */}
+      {/* Show loading spinner */}
       {loading ? (
         <div className="loading">
           <div className="spinner"></div>
           Loading books...
         </div>
       ) : books.length > 0 ? (
-        // Display fetched books using BookCard component
         <div className="genre-book-grid">
           {books.map((book) => (
             <div data-aos="fade-up" key={book.id}>
               <BookCard
                 book={book}
-                onView={() => onView(book)} // Open modal on book click
-                onFav={() => handleFavClick(book)} // Sync favorite click
-                shelfRef={shelfRef} // Reference for shelf animation
+                onView={() => onView(book)}
+                onFav={() => handleFavClick(book)}
+                shelfRef={shelfRef}
               />
             </div>
           ))}
         </div>
       ) : (
-        // Message if no books are found or genre not selected
         <p className="no-books">
           {activeGenre
             ? "No books found for this genre."
