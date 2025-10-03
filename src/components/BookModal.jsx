@@ -4,13 +4,9 @@
 // Designed to be reusable and responsive
 
 import React from "react";
-import "../styles/BookModal.css"; // Import modal-specific styles
+import "../styles/BookModal.css";
 import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa"; // Icons for favorite & rating
 
-// Props:
-// - book: object containing book details (title, author, image, rating, etc.)
-// - onClose: function to close the modal
-// - onFav: function to toggle favorite state in parent component
 const BookModal = ({ book, onClose, onFav }) => {
   // If no book data is provided, it don't render anything
   if (!book) return null;

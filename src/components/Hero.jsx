@@ -3,7 +3,7 @@
 // Includes a background video, overlay content, heading, subheading, and search bar
 
 import React from "react";
-import "../styles/Hero.css"; // Import Hero-specific styles
+import "../styles/Hero.css"; 
 import HeroVideo from "../assets/BGVIDEO.mp4"; // Background video file
 
 const Hero = () => {

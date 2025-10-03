@@ -3,7 +3,7 @@
 // Includes social media icons and copyright
 
 import React from "react";
-import '../styles/footer.css'; // Import styles
+import '../styles/footer.css'; 
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 
 const Footer = () => {

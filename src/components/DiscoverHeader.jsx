@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import "../styles/discoverHeader.css"; // Import the CSS we created
+import "../styles/discoverHeader.css"; 
 import "aos/dist/aos.css";
 import AOS from "aos";
 
 const DiscoverHeader = () => {
-  // ✅ Initialize AOS for animations
+  // Initialize AOS for animations
   useEffect(() => {
     AOS.init({ duration: 1200, once: true });
   }, []);
