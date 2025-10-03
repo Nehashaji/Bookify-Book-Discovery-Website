@@ -61,7 +61,7 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
 
-/* Responsive for smaller screens */
+/* Responsive */
 @media (max-width: 768px) {
   .cta-section h2 { font-size: 2rem; }
   .cta-section p { font-size: 1rem; }

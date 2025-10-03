@@ -11,7 +11,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { FaChevronLeft, FaChevronRight, FaStar } from "react-icons/fa";
 
-const PopularBooks = ({ shelfRef }) => {
+const PopularBooks = ({ shelfRef, onFav, onView, favorites }) => {
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
   const scrollRef = useRef(null);
@@ -36,7 +36,7 @@ const PopularBooks = ({ shelfRef }) => {
             description: book.description,
             rating: (Math.random() * 2 + 3).toFixed(1),
             previewLink: book.amazon_product_url,
-            fav: false,
+            fav: favorites.some((f) => f.id === book.primary_isbn13), 
             rank: book.rank,
             rank_last_week: book.rank_last_week,
             weeks_on_list: book.weeks_on_list,
@@ -50,19 +50,7 @@ const PopularBooks = ({ shelfRef }) => {
     };
 
     fetchPopularBooks();
-  }, []);
-
-  const handleFav = (bookToUpdate) => {
-    setBooks((prev) =>
-      prev.map((b) =>
-        b.id === bookToUpdate.id ? { ...b, fav: !b.fav } : b
-      )
-    );
-
-    if (selectedBook && selectedBook.id === bookToUpdate.id) {
-      setSelectedBook({ ...bookToUpdate, fav: !bookToUpdate.fav });
-    }
-  };
+  }, [favorites]); 
 
   const scroll = (direction) => {
     if (scrollRef.current) {
@@ -92,9 +80,12 @@ const PopularBooks = ({ shelfRef }) => {
             <div key={book.id} data-aos="fade-up" className="book-wrapper">
               <BookCard
                 book={book}
-                onView={setSelectedBook}
-                onFav={handleFav}
-                shelfRef={shelfRef} // ✅ Pass shelfRef here
+                onView={() => {
+                  setSelectedBook(book);
+                  onView(book);
+                }}
+                onFav={() => onFav(book)}
+                shelfRef={shelfRef}
               />
             </div>
           ))
@@ -107,7 +98,7 @@ const PopularBooks = ({ shelfRef }) => {
         <BookModal
           book={selectedBook}
           onClose={() => setSelectedBook(null)}
-          onFav={handleFav}
+          onFav={() => onFav(selectedBook)} 
         />
       )}
     </section>

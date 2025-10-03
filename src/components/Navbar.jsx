@@ -1,11 +1,8 @@
-// ------------- Navbar.jsx --------------
-// Responsive navigation bar component for Bookify
-// Includes logo, links, auth buttons, and mobile hamburger menu
 import React, { useState, useEffect, forwardRef } from "react";
-import "../styles/Navbar.css";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { Link } from "react-router-dom"; 
+import "../styles/Navbar.css";
 
-// Forward ref to pass shelf link reference to parent
 const Navbar = forwardRef((props, shelfRef) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -30,11 +27,10 @@ const Navbar = forwardRef((props, shelfRef) => {
 
       {/* Desktop Navigation Links */}
       <ul className="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/discover">Discover</a></li>
-        {/* Attached the forwarded ref to My Shelf */}
-        <li><a href="#" ref={shelfRef}>My Shelf</a></li>
-        <li><a href="#">Profile</a></li>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/discover">Discover</Link></li>
+        <li><Link to="/favorites" ref={shelfRef}>My Shelf</Link></li>
+        <li><Link to="#">Profile</Link></li>
       </ul>
 
       {/* Desktop Auth Buttons */}
@@ -51,10 +47,10 @@ const Navbar = forwardRef((props, shelfRef) => {
       {/* Mobile Menu */}
       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
         <ul>
-          <li><a href="#" onClick={() => setMenuOpen(false)}>Home</a></li>
-          <li><a href="#" onClick={() => setMenuOpen(false)}>Discover</a></li>
-          <li><a href="#" onClick={() => setMenuOpen(false)}>My Shelf</a></li>
-          <li><a href="#" onClick={() => setMenuOpen(false)}>Profile</a></li>
+          <li><Link to="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
+          <li><Link to="/discover" onClick={() => setMenuOpen(false)}>Discover</Link></li>
+          <li><Link to="/favorites" onClick={() => setMenuOpen(false)}>My Shelf</Link></li>
+          <li><Link to="#" onClick={() => setMenuOpen(false)}>Profile</Link></li>
         </ul>
         <div className="mobile-auth">
           <button

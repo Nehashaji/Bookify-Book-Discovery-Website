@@ -8,6 +8,7 @@ import BookModal from "./components/BookModal";
 // Pages
 import HomePage from "./pages/HomePage";       
 import DiscoverPage from "./pages/DiscoverPage"; 
+import FavoritesPage from "./pages/FavouritesPage"; 
 
 import "./App.css";
 
@@ -73,10 +74,20 @@ function App() {
               />
             }
           />
+          {/* Favorites page route */}
+          <Route
+            path="/favorites"
+            element={
+              <FavoritesPage
+                favorites={favorites}
+                onFav={handleFav}
+                onView={handleView}
+              />
+            }
+          />
         </Routes>
       </main>
 
-      {/* Modal for viewing book details */}
       {selectedBook && (
         <BookModal
           book={selectedBook}

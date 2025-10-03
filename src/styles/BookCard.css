@@ -6,7 +6,7 @@
 /* Grid  */
 .book-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 cards per row on large screens */
+  grid-template-columns: repeat(4, 1fr); /* 4 cards per row on large screens */ 
   gap: 28px; /* space between cards */
   padding: 20px; /* padding inside grid container */
 }
@@ -18,17 +18,18 @@
   background: linear-gradient(145deg, #fdfcf7, #f8f4ec);
   border-radius: 14px;
   padding: 14px;
-  box-shadow: 0 6px 18px rgba(64, 40, 20, 0.08); /* subtle shadow */
-  transition: transform 0.25s ease, box-shadow 0.25s ease; /* smooth hover animation */
+  box-shadow: 0 6px 18px rgba(64, 40, 20, 0.08); 
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
   position: relative;
   cursor: default;
   height: 100%; 
+  min-height: 420px; /* ensures all cards align in height */
 }
 
 /* Hover effect for card */
 .book-card:hover {
   transform: translateY(-6px) scale(1.02); /* lift and slightly enlarge */
-  box-shadow: 0 18px 40px rgba(64, 40, 20, 0.16); /* deeper shadow */
+  box-shadow: 0 18px 40px rgba(64, 40, 20, 0.16); 
 }
 
 /*Top Row: Rating & Favorite*/
@@ -80,7 +81,7 @@
 
 /* Book Cover */
 .cover-wrap {
-  height: 280px; /* fixed height for all cards */
+  height: 280px; /* fixed equal cover height for all cards */
   overflow: hidden; /* hide overflow when zoomed */
   margin-bottom: 12px;
   cursor: pointer;
@@ -91,6 +92,7 @@
   height: 100%;
   object-fit: cover; /* cover the container */
   transition: transform 0.35s ease; /* smooth zoom on hover */
+  border-radius: 10px;
 }
 
 .cover-wrap:hover .book-cover {
@@ -103,6 +105,7 @@
   text-align: left;
   flex: 1; /* take remaining space */
   cursor: pointer; /* clickable */
+  min-height: 70px; /* keeps info area consistent */
 }
 
 .book-title {
@@ -113,12 +116,12 @@
   color: #3b2d1f; 
   min-height: 2.6em; /* ensures title space consistency */
   overflow: hidden;
-  text-overflow: ellipsis; /* truncate long titles */
+  text-overflow: ellipsis; 
 }
 
 .book-author {
   font-size: 0.85rem;
-  color: #7a6b5b; /* muted brown */
+  color: #7a6b5b; 
   margin: 0;
 }
 
@@ -135,8 +138,8 @@
   padding: 10px 14px;
   font-size: 0.92rem;
   border-radius: 12px;
-  background: linear-gradient(180deg, #8b5e3c, #6e4b2f); /* warm brown gradient */
-  color: #fffbea; /* light text */
+  background: linear-gradient(180deg, #8b5e3c, #6e4b2f);
+  color: #fffbea; 
   cursor: pointer;
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
@@ -150,13 +153,14 @@
 @media (max-width: 480px) {
   .book-grid {
     grid-template-columns: 1fr; /* single column */
-    gap: 20px; /* tighter spacing */
+    gap: 20px; 
     padding: 12px;
   }
 
   .book-card {
     padding: 12px;
     border-radius: 12px;
+    min-height: 360px; /* consistent height on mobile */
   }
 
   /* Book Cover */

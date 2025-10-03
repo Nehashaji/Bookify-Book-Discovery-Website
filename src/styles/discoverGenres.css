@@ -1,7 +1,7 @@
 /* -------- Discover Genres Section -------- */
 .genre-section {
-  padding: 0.5rem 2.5rem 4rem 2.5rem; /* slightly more horizontal padding */
-  background: #F5E6CA; /* Antique parchment color */
+  padding: 0.5rem 2.5rem 4rem 2.5rem; 
+  background: #F5E6CA;
   color: #1e1a1a;
   text-align: left;
   position: relative;

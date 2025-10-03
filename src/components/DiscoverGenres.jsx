@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";  // import for reading query params
+import { useLocation } from "react-router-dom";  
 import "../styles/discoverGenres.css"; 
 import BookCard from "./BookCard";     
 import AOS from "aos";

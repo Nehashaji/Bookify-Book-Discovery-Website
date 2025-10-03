@@ -6,11 +6,16 @@ import WhyChooseUs from "../components/WhyChooseUs";
 import CTASection from "../components/CTASection";
 import Footer from "../components/Footer";
 
-const HomePage = ({ onView, onFav, shelfRef }) => {
+const HomePage = ({ onView, onFav, shelfRef, favorites }) => {
   return (
     <div>
       <Hero />
-      <PopularBooks onView={onView} onFav={onFav} shelfRef={shelfRef} />
+      <PopularBooks 
+        onView={onView} 
+        onFav={onFav} 
+        shelfRef={shelfRef} 
+        favorites={favorites}  
+      />
       <TrendingGenres onView={onView} onFav={onFav} />
       <WhyChooseUs />
       <CTASection />

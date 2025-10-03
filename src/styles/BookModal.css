@@ -96,7 +96,7 @@
 
 /* Active state for added favorites */
 .fav-btn.added {
-  background: linear-gradient(180deg, #c0392b, #801c22); /* red gradient */
+  background: linear-gradient(180deg, #c0392b, #801c22); 
 }
 
 /* Right Column: Book Details */

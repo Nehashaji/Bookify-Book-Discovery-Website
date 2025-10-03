@@ -20,7 +20,6 @@
   background: url('../assets/library.jpeg') center/cover no-repeat; /* Background image */
   background-size: cover;
   z-index: 0; /* Behind content */
-  /* Optional subtle overlay gradient */
   background-blend-mode: overlay;
   background-color: rgba(0, 0, 0, 0.55);
 }
@@ -76,7 +75,7 @@
 
 /* Search Button Styling */
 .discover-header .search-bar button {
-  background-color: #f5c518; /* golden yellow */
+  background-color: #f5c518; 
   border: none;
   padding: 0.8rem 1.5rem;
   border-radius: 8px;
@@ -88,7 +87,7 @@
 
 /* Hover Effect for Search Button */
 .discover-header .search-bar button:hover {
-  background-color: #d4af37; /* deeper gold */
+  background-color: #d4af37; 
   transform: scale(1.05);
 }
 
