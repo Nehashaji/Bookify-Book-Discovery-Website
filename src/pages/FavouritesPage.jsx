@@ -1,17 +1,29 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/favourites.css";
 import BookCard from "../components/BookCard";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import libraryImg from "../assets/library.jpeg";
+import Footer from "../components/Footer"; 
 
 const FavoritesPage = ({ favorites, onFav, onView }) => {
+  const [favBooks, setFavBooks] = useState([]);
+  const [removingBookId, setRemovingBookId] = useState(null);
+
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
-  }, []);
+    setFavBooks(favorites.map((book) => ({ ...book, fav: true })));
+  }, [favorites]);
 
-  // Ensure every book in favorites has fav = true for red heart
-  const favoritesWithFlag = favorites.map((book) => ({ ...book, fav: true }));
+  const handleRemoveFav = (book) => {
+    setRemovingBookId(book.id);
+
+    setTimeout(() => {
+      setFavBooks((prev) => prev.filter((b) => b.id !== book.id));
+      onFav(book);
+      setRemovingBookId(null);
+    }, 1000); 
+  };
 
   return (
     <div className="favorites-page">
@@ -30,18 +42,20 @@ const FavoritesPage = ({ favorites, onFav, onView }) => {
       </header>
 
       {/* Favorites Grid */}
-      {favoritesWithFlag.length > 0 ? (
+      {favBooks.length > 0 ? (
         <section className="favorites-grid">
-          {favoritesWithFlag.map((book) => (
+          {favBooks.map((book) => (
             <div
-              className="book-card-wrapper"
+              className={`book-card-wrapper ${
+                removingBookId === book.id ? "fade-out" : ""
+              }`}
               key={book.id}
-              data-aos="zoom-in"
+              data-aos={removingBookId === book.id ? "" : "zoom-in"}
             >
               <BookCard
                 book={book}
                 onView={() => onView(book)}
-                onFav={() => onFav(book)}
+                onFav={() => handleRemoveFav(book)}
               />
             </div>
           ))}
@@ -51,6 +65,7 @@ const FavoritesPage = ({ favorites, onFav, onView }) => {
           <p className="no-books">No books added to favorites yet!</p>
         </div>
       )}
+      <Footer />
     </div>
   );
 };

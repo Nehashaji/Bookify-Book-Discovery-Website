@@ -2,26 +2,25 @@
 // A reusable card component for displaying individual books
 // Shows book cover, title, author, rating, favorite button, and a View Details button
 // Designed to work with parent component callbacks for favorite and modal view
+
 import React from "react";
 import "../styles/BookCard.css";
 import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
 
 const BookCard = ({ book, onView, onFav, shelfRef }) => {
   const handleFavClick = (e) => {
-    if (book.fav) {
-      onFav(book);
+    const bookEl = e.currentTarget.closest(".book-card").querySelector("img");
+    if (!bookEl || !shelfRef?.current) {
+      onFav(book); // fallback, call once if animation is impossible
       return;
     }
-
-    const bookEl = e.currentTarget.closest(".book-card").querySelector("img");
-    if (!bookEl || !shelfRef?.current) return;
 
     const bookRect = bookEl.getBoundingClientRect();
     const shelfRect = shelfRef.current.getBoundingClientRect();
 
-    // Clone the book image
+    // Clone the book image for fly animation
     const clone = bookEl.cloneNode(true);
-    clone.style.position = "fixed"; // fly over everything
+    clone.style.position = "fixed";
     clone.style.top = bookRect.top + "px";
     clone.style.left = bookRect.left + "px";
     clone.style.width = bookRect.width + "px";
@@ -30,7 +29,6 @@ const BookCard = ({ book, onView, onFav, shelfRef }) => {
     clone.style.zIndex = 9999;
     document.body.appendChild(clone);
 
-    // Animate clone to shelf
     requestAnimationFrame(() => {
       clone.style.top = shelfRect.top + "px";
       clone.style.left = shelfRect.left + "px";
@@ -39,17 +37,14 @@ const BookCard = ({ book, onView, onFav, shelfRef }) => {
       clone.style.opacity = 0.5;
     });
 
-    // When animation ends
+    // Call onFav only once after animation
     clone.addEventListener("transitionend", () => {
       clone.remove();
-      onFav(book); // mark favorite
+      onFav(book); 
 
-      // Added glow effect to shelf link
       if (shelfRef?.current) {
         shelfRef.current.classList.add("shelf-glow");
-        setTimeout(() => {
-          shelfRef.current.classList.remove("shelf-glow");
-        }, 500); // match animation duration
+        setTimeout(() => shelfRef.current.classList.remove("shelf-glow"), 500);
       }
     });
   };

@@ -1,11 +1,10 @@
 import React, { useState, useRef } from "react";
 import { Routes, Route } from "react-router-dom";
+import { Toaster, toast } from "react-hot-toast";
 
-// Components
 import Navbar from "./components/Navbar";
 import BookModal from "./components/BookModal";
 
-// Pages
 import HomePage from "./pages/HomePage";       
 import DiscoverPage from "./pages/DiscoverPage"; 
 import FavoritesPage from "./pages/FavouritesPage"; 
@@ -13,36 +12,31 @@ import FavoritesPage from "./pages/FavouritesPage";
 import "./App.css";
 
 function App() {
-  const [selectedBook, setSelectedBook] = useState(null); // book for modal
-  const [favorites, setFavorites] = useState([]); // favorite books
-  const shelfRef = useRef(null); // reference for shelf animation
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [favorites, setFavorites] = useState([]);
+  const shelfRef = useRef(null);
 
-  // Open modal
   const handleView = (book) => setSelectedBook(book);
-
-  // Close modal
   const handleClose = () => setSelectedBook(null);
 
-  // Add/remove favorite
   const handleFav = (book) => {
-    let newFavorites;
     const exists = favorites.some((b) => b.id === book.id);
+    const newFavorites = exists 
+      ? favorites.filter((b) => b.id !== book.id) 
+      : [...favorites, book];
 
-    if (exists) {
-      newFavorites = favorites.filter((b) => b.id !== book.id);
-    } else {
-      newFavorites = [...favorites, book];
-    }
-
-    // Update favorites state
     setFavorites(newFavorites);
 
-    // Update modal favorite status if currently open
     if (selectedBook && selectedBook.id === book.id) {
-      setSelectedBook({
-        ...selectedBook,
-        fav: !exists, 
-      });
+      setSelectedBook({ ...selectedBook, fav: !exists });
+    }
+
+    // Only toast once here
+    toast.dismiss();
+    if (exists) {
+      toast.error(`Removed "${book.title}" from your shelf`);
+    } else {
+      toast.success(`Added "${book.title}" to your shelf`);
     }
   };
 
@@ -74,7 +68,6 @@ function App() {
               />
             }
           />
-          {/* Favorites page route */}
           <Route
             path="/favorites"
             element={
@@ -95,6 +88,22 @@ function App() {
           onFav={handleFav}
         />
       )}
+
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            borderRadius: "12px",
+            background: "#5a3e1b",
+            color: "#fffbea",
+            padding: "12px 20px",
+            fontWeight: 500,
+            fontSize: "0.95rem",
+          },
+          success: { iconTheme: { primary: "#2d8a1aff", secondary: "#fffbea" } },
+          error: { iconTheme: { primary: "#b81f1fff", secondary: "#fffbea" } },
+        }}
+      />
     </div>
   );
 }
