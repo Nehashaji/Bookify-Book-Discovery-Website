@@ -30,7 +30,7 @@ const Navbar = forwardRef((props, shelfRef) => {
         <li><Link to="/">Home</Link></li>
         <li><Link to="/discover">Discover</Link></li>
         <li><Link to="/favorites" ref={shelfRef}>My Shelf</Link></li>
-        <li><Link to="#">Profile</Link></li>
+        <li><Link to="/news">Book Insights</Link></li>
       </ul>
 
       {/* Desktop Auth Buttons */}
@@ -50,7 +50,7 @@ const Navbar = forwardRef((props, shelfRef) => {
           <li><Link to="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
           <li><Link to="/discover" onClick={() => setMenuOpen(false)}>Discover</Link></li>
           <li><Link to="/favorites" onClick={() => setMenuOpen(false)}>My Shelf</Link></li>
-          <li><Link to="#" onClick={() => setMenuOpen(false)}>Profile</Link></li>
+          <li><Link to="/news" onClick={() => setMenuOpen(false)}>Book Insights</Link></li>
         </ul>
         <div className="mobile-auth">
           <button

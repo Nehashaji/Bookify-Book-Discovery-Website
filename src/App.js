@@ -4,10 +4,12 @@ import { Toaster, toast } from "react-hot-toast";
 
 import Navbar from "./components/Navbar";
 import BookModal from "./components/BookModal";
+import ScrollToTop from "./components/ScrollToTop";
 
 import HomePage from "./pages/HomePage";       
 import DiscoverPage from "./pages/DiscoverPage"; 
 import FavoritesPage from "./pages/FavouritesPage"; 
+import BookNewsPage from "./pages/BookNewsPage"; 
 
 import "./App.css";
 
@@ -21,8 +23,8 @@ function App() {
 
   const handleFav = (book) => {
     const exists = favorites.some((b) => b.id === book.id);
-    const newFavorites = exists 
-      ? favorites.filter((b) => b.id !== book.id) 
+    const newFavorites = exists
+      ? favorites.filter((b) => b.id !== book.id)
       : [...favorites, book];
 
     setFavorites(newFavorites);
@@ -31,7 +33,6 @@ function App() {
       setSelectedBook({ ...selectedBook, fav: !exists });
     }
 
-    // Only toast once here
     toast.dismiss();
     if (exists) {
       toast.error(`Removed "${book.title}" from your shelf`);
@@ -43,6 +44,8 @@ function App() {
   return (
     <div className="App font-sans">
       <Navbar ref={shelfRef} />
+
+      <ScrollToTop />
 
       <main className="main-content">
         <Routes>
@@ -78,6 +81,7 @@ function App() {
               />
             }
           />
+          <Route path="/news" element={<BookNewsPage />} />
         </Routes>
       </main>
 
@@ -100,8 +104,8 @@ function App() {
             fontWeight: 500,
             fontSize: "0.95rem",
           },
-          success: { iconTheme: { primary: "#2d8a1aff", secondary: "#fffbea" } },
-          error: { iconTheme: { primary: "#b81f1fff", secondary: "#fffbea" } },
+          success: { iconTheme: { primary: "#2d8a1a", secondary: "#fffbea" } },
+          error: { iconTheme: { primary: "#b81f1f", secondary: "#fffbea" } },
         }}
       />
     </div>

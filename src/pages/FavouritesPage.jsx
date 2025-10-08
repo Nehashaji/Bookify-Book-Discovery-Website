@@ -3,8 +3,7 @@ import "../styles/favourites.css";
 import BookCard from "../components/BookCard";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import libraryImg from "../assets/library.jpeg";
-import Footer from "../components/Footer"; 
+import Footer from "../components/Footer";
 
 const FavoritesPage = ({ favorites, onFav, onView }) => {
   const [favBooks, setFavBooks] = useState([]);
@@ -22,17 +21,13 @@ const FavoritesPage = ({ favorites, onFav, onView }) => {
       setFavBooks((prev) => prev.filter((b) => b.id !== book.id));
       onFav(book);
       setRemovingBookId(null);
-    }, 1000); 
+    }, 1000);
   };
 
   return (
     <div className="favorites-page">
       {/* Hero Section */}
-      <header
-        className="favorites-hero"
-        style={{ backgroundImage: `url(${libraryImg})` }}
-        data-aos="fade-down"
-      >
+      <header className="favorites-hero" data-aos="fade-down">
         <div className="hero-overlay">
           <div className="hero-content">
             <h1>My Book Shelf</h1>
@@ -65,6 +60,7 @@ const FavoritesPage = ({ favorites, onFav, onView }) => {
           <p className="no-books">No books added to favorites yet!</p>
         </div>
       )}
+
       <Footer />
     </div>
   );
