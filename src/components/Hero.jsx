@@ -1,29 +1,35 @@
-// ------------- Hero.jsx -----------------
-import React from "react";
+import React, { useEffect } from "react";
 import "../styles/Hero.css";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useNavigate } from "react-router-dom"; 
 
 const Hero = () => {
+  const navigate = useNavigate(); 
+
+  useEffect(() => {
+    AOS.init({ duration: 1200, once: true });
+  }, []);
+
+  const handleExploreClick = () => {
+    navigate("/discover");
+  };
+
   return (
     <section className="hero">
-      {/* Overlay */}
       <div className="hero-overlay"></div>
 
-      {/* Foreground content */}
-      <div className="hero-content" data-aos="fade-up" data-aos-delay="200">
-        <h1 data-aos="fade-right" data-aos-delay="300">
-          Unlock Stories That Stay With You
+      <div className="hero-content" data-aos="fade-up">
+        <h1>
+          Unlock Stories <span>That Stay With You</span>
         </h1>
-        <p data-aos="fade-left" data-aos-delay="400">
+        <p>
           From hidden gems to bestsellers, explore books that speak to you.
+          Dive into your next adventure with Bookify.
         </p>
-
-        <div className="search-bar" data-aos="zoom-in" data-aos-delay="500">
-          <input
-            type="text"
-            placeholder="Search for books by title, author, or genre..."
-          />
-          <button>Search</button>
-        </div>
+        <button className="hero-btn" onClick={handleExploreClick}>
+          Explore Books
+        </button>
       </div>
     </section>
   );

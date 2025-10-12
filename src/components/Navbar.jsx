@@ -1,27 +1,36 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { Link } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/Navbar.css";
 
 const Navbar = forwardRef((props, shelfRef) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
   }, [menuOpen]);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
-  const handleLogin = () => console.log("Log in clicked");
-  const handleSignup = () => console.log("Sign up clicked");
+
+  const handleLogin = () => {
+    setMenuOpen(false);
+    navigate("/login");
+  };
+
+  const handleSignup = () => {
+    setMenuOpen(false);
+    navigate("/signup");
+  };
 
   return (
     <nav className="navbar" data-aos="fade-down">
       {/* Logo */}
       <div className="nav-logo">
-        <img 
-          src={require("../assets/logo.png")} 
-          alt="Bookify Logo" 
-          className="logo-img" 
+        <img
+          src={require("../assets/logo.png")}
+          alt="Bookify Logo"
+          className="logo-img"
         />
       </div>
 
@@ -39,7 +48,7 @@ const Navbar = forwardRef((props, shelfRef) => {
         <button className="signup" onClick={handleSignup}>Sign up</button>
       </div>
 
-      {/* Hamburger Menu Icon */}
+      {/* Hamburger Menu */}
       <div className="hamburger" onClick={toggleMenu}>
         {menuOpen ? <FaTimes /> : <FaBars />}
       </div>
@@ -53,18 +62,8 @@ const Navbar = forwardRef((props, shelfRef) => {
           <li><Link to="/news" onClick={() => setMenuOpen(false)}>Book Insights</Link></li>
         </ul>
         <div className="mobile-auth">
-          <button
-            className="login"
-            onClick={() => { handleLogin(); setMenuOpen(false); }}
-          >
-            Log in
-          </button>
-          <button
-            className="signup"
-            onClick={() => { handleSignup(); setMenuOpen(false); }}
-          >
-            Sign up
-          </button>
+          <button className="login" onClick={handleLogin}>Log in</button>
+          <button className="signup" onClick={handleSignup}>Sign up</button>
         </div>
       </div>
     </nav>

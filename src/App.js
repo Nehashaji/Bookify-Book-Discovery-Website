@@ -6,10 +6,12 @@ import Navbar from "./components/Navbar";
 import BookModal from "./components/BookModal";
 import ScrollToTop from "./components/ScrollToTop";
 
-import HomePage from "./pages/HomePage";       
-import DiscoverPage from "./pages/DiscoverPage"; 
-import FavoritesPage from "./pages/FavouritesPage"; 
-import BookNewsPage from "./pages/BookNewsPage"; 
+import HomePage from "./pages/HomePage";
+import DiscoverPage from "./pages/DiscoverPage";
+import FavoritesPage from "./pages/FavouritesPage";
+import BookNewsPage from "./pages/BookNewsPage";
+import SignUpPage from "./pages/SignupPage";
+import LoginPage from "./pages/LoginPage";
 
 import "./App.css";
 
@@ -44,7 +46,6 @@ function App() {
   return (
     <div className="App font-sans">
       <Navbar ref={shelfRef} />
-
       <ScrollToTop />
 
       <main className="main-content">
@@ -82,15 +83,13 @@ function App() {
             }
           />
           <Route path="/news" element={<BookNewsPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/login" element={<LoginPage />} /> 
         </Routes>
       </main>
 
       {selectedBook && (
-        <BookModal
-          book={selectedBook}
-          onClose={handleClose}
-          onFav={handleFav}
-        />
+        <BookModal book={selectedBook} onClose={handleClose} onFav={handleFav} />
       )}
 
       <Toaster

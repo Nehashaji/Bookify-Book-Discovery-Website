@@ -64,7 +64,7 @@ const PopularBooks = ({ shelfRef, onFav, onView, favorites }) => {
   return (
     <section className="popular-section">
       <h2 className="section-title" data-aos="fade-up">
-        <FaStar className="section-icon" /> Top Popular Books
+        <FaStar className="section-icon" /> Bestsellers Books
       </h2>
 
       <button className="scroll-btn left" onClick={() => scroll("left")}>

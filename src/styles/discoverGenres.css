@@ -28,7 +28,7 @@
 
 .genre-btn {
   position: relative;
-  padding: 0.8rem 1.6rem; /* slightly larger buttons */
+  padding: 0.8rem 1.6rem;
   border: 2px solid #d4af37;
   border-radius: 50px;
   background: #fff;
@@ -69,7 +69,7 @@
   margin-top: 1rem;
 }
 
-/* -------- Loading Spinner -------- */
+/* Loading Spinner */
 .loading {
   font-family: "Roboto Serif", serif;
   font-size: 1.2rem;
@@ -93,31 +93,78 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Responsive design */
+/* Mobile Responsive Design  */
 @media (max-width: 480px) {
   .genre-section {
-    padding: 1.5rem 1rem 2.5rem 1rem;
-    border-radius: 10px;
+    padding: 2rem 0.5rem 2.8rem 0.5rem;
+    border-radius: 12px;
+    margin-top: -2.5rem;
+    padding-top: 1.5rem;  
+    background: linear-gradient(to bottom, #f8edd3 0%, #f5e6ca 100%);
   }
 
   .genre-header {
-    font-size: 1.4rem;
-    margin-bottom: 0.8rem;
+    font-size: 1.5rem;
+    margin-bottom: 1.2rem;
+    margin-top: -0.5rem;  
     text-align: center;
+    letter-spacing: 0.px;
+    color: #4a3423;
+    position: relative;
+  }
+
+  .genre-header::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #d4af37;
+    margin: 0.5rem auto 0 auto;
+    border-radius: 2px;
   }
 
   .genre-buttons {
     gap: 0.6rem;
-    padding: 0.6rem 0.2rem;
+    padding: 0.8rem 0.3rem 1rem 0.3rem;
+    justify-content: flex-start;
   }
 
   .genre-btn {
-    padding: 0.55rem 1rem;
+    padding: 0.6rem 1.1rem;
     font-size: 0.85rem;
+    border: 1.8px solid #d4af37;
+    background: #fffdfa;
+    transition: all 0.25s ease;
+  }
+
+  .genre-btn.active {
+    background: linear-gradient(90deg, #d4af37 0%, #f7cf60 100%);
+    color: #2c1c0c;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
   }
 
   .genre-book-grid {
-    grid-template-columns: repeat(2, 1fr); /* clean 2-column on phones */
-    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.1rem;
+    margin-top: 1.8rem;
+  }
+
+  .genre-buttons::before,
+  .genre-buttons::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 25px;
+    pointer-events: none;
+    z-index: 5;
+  }
+  .genre-buttons::before {
+    left: 0;
+    background: linear-gradient(to right, #f5e6ca 60%, transparent);
+  }
+  .genre-buttons::after {
+    right: 0;
+    background: linear-gradient(to left, #f5e6ca 60%, transparent);
   }
 }

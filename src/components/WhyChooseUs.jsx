@@ -1,30 +1,60 @@
-// --------------- WhyChooseUs.jsx ---------------
-// Section explaining the benefits of choosing Bookify
-// Split layout: text on the left, image on the right
-
-import React from "react";
-import '../styles/whychoose.css'; // Import styles 
-import whyImage from "../assets/why-choose-us.png"; // image
+import React, { useEffect } from "react";
+import "../styles/whychoose.css";
+import { FaBookReader, FaUserShield, FaLock, FaMagic } from "react-icons/fa";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const WhyChooseUs = () => {
-  return (
-    <section className="why-choose-us-split">
-      <div className="container split-container">
-        
-        {/* Left side: Text content (with AOS fade-right animation) */}
-        <div className="why-text" data-aos="fade-right">
-          <h2>Why Choose Bookify?</h2>
-          <p> 
-            Bookify brings thousands of books to your fingertips, making it easy to discover, read, and save your favorite stories. 
-            Whether you’re searching for a classic novel, a bestseller, or something new, our platform helps you explore with ease. 
-            Enjoy a clean, intuitive interface designed to make your reading experience simple, engaging, and truly enjoyable.
-          </p>
-        </div>
+  useEffect(() => {
+    AOS.init({ duration: 1000, once: true });
+  }, []);
 
-        {/* Right side: Image (with AOS fade-left animation) */}
-        <div className="why-image" data-aos="fade-left">
-          <img src={whyImage} alt="Why Choose Bookify" />
-        </div>
+  const cards = [
+    {
+      icon: <FaBookReader />,
+      title: "Endless Library",
+      desc: "Explore thousands of titles from timeless classics to the latest bestsellers all in one elegant platform.",
+    },
+    {
+      icon: <FaUserShield />,
+      title: "Personal Library",
+      desc: "Save your favorites, create collections, and manage your personal bookshelf effortlessly.",
+    },
+    {
+      icon: <FaMagic />,
+      title: "Beautiful Experience",
+      desc: "Enjoy a seamless, visually appealing interface designed for reading across all devices.",
+    },
+        {
+      icon: <FaLock />,
+      title: "Safe & Private",
+      desc: "Your data and preferences are secure enjoy a reading experience without annoying ads or tracking.",
+    },
+  ];
+
+  return (
+    <section className="why-choose">
+      <div className="why-header" data-aos="fade-up">
+        <h2>Why Choose <span>Bookify</span>?</h2>
+        <p>
+          Because great stories deserve an equally great experience.  
+          Bookify combines elegance, simplicity, and technology to make reading feel timeless again.
+        </p>
+      </div>
+
+      <div className="why-card-grid">
+        {cards.map((card, i) => (
+          <div
+            key={i}
+            className="why-card"
+            data-aos="fade-up"
+            data-aos-delay={i * 150}
+          >
+            <div className="why-icon">{card.icon}</div>
+            <h3>{card.title}</h3>
+            <p>{card.desc}</p>
+          </div>
+        ))}
       </div>
     </section>
   );
