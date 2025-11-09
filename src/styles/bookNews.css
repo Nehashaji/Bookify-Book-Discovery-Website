@@ -1,0 +1,143 @@
+/* Hero Section */
+.news-hero {
+  position: relative;
+  height: 60vh;
+  background: url('../assets/booknewsbanner.png') center/cover fixed no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fffbea;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 15, 1, 0.6);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding: 0 1rem;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  text-shadow: 0 3px 6px rgba(0,0,0,0.4);
+}
+
+/* News/Articles Section */
+.book-news-section {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.loading-text,
+.error-text,
+.no-articles {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.news-card {
+  background-color: #fffbea;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.news-thumbnail {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+.news-card:hover .news-thumbnail {
+  transform: scale(1.05);
+}
+
+.news-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.news-author {
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 0.5rem;
+}
+
+.news-description {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+.read-more {
+  text-decoration: none;
+  font-weight: 500;
+  color: #5a3e1b;
+  transition: color 0.2s ease;
+}
+
+.read-more:hover {
+  color: #2d8a1a;
+}
+
+/* Responsive */
+@media screen and (max-width: 1024px) {
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .news-hero {
+    height: 50vh;
+  }
+}
