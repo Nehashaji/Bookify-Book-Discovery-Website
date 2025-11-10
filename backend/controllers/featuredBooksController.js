@@ -1,8 +1,7 @@
-const mongoose = require("mongoose");
-const FeaturedBook = require("../models/FeaturedBook");
+import FeaturedBook from "../models/FeaturedBook.js";
 
 // GET all books
-exports.getBooks = async (req, res) => {
+export const getBooks = async (req, res) => {
   try {
     const books = await FeaturedBook.find().sort({ order: 1 });
     res.json(books);
@@ -12,7 +11,7 @@ exports.getBooks = async (req, res) => {
 };
 
 // POST a new book
-exports.addBook = async (req, res) => {
+export const addBook = async (req, res) => {
   try {
     const count = await FeaturedBook.countDocuments();
     const newBook = new FeaturedBook({ ...req.body, order: count });
@@ -24,7 +23,7 @@ exports.addBook = async (req, res) => {
 };
 
 // PUT update book
-exports.updateBook = async (req, res) => {
+export const updateBook = async (req, res) => {
   try {
     const updatedBook = await FeaturedBook.findByIdAndUpdate(
       req.params.id,
@@ -38,7 +37,7 @@ exports.updateBook = async (req, res) => {
 };
 
 // DELETE a book
-exports.deleteBook = async (req, res) => {
+export const deleteBook = async (req, res) => {
   try {
     await FeaturedBook.findByIdAndDelete(req.params.id);
     res.json({ message: "Book deleted" });
