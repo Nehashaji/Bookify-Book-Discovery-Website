@@ -1,22 +1,39 @@
-// src/pages/LoginPage.jsx
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/login.css";
 import { Link } from "react-router-dom";
 import { AiOutlineSearch, AiOutlineHeart, AiOutlineRead, AiOutlineFilter } from "react-icons/ai";
 import Footer from "../components/Footer";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const API_URL = "http://localhost:5000/api/users";
 
 const LoginPage = () => {
-  useEffect(() => {
-    AOS.init({ duration: 1000, once: true });
-  }, []);
+  const [form, setForm] = useState({ email: "", password: "" });
+
+  useEffect(() => { AOS.init({ duration: 1000, once: true }); }, []);
+
+  const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(`${API_URL}/login`, form);
+      localStorage.setItem("token", res.data.token);
+      toast.success(res.data.message);
+    } catch (err) {
+      toast.error(err.response?.data?.error || "Login failed");
+    }
+  };
 
   return (
     <>
+      <ToastContainer />
       <div className="login-wrapper">
         <div className="login-box">
-          {/* LEFT — INFO */}
           <div className="login-left">
             <div className="info-content" data-aos="fade-right">
               <h1>Welcome Back to <span>Bookify</span></h1>
@@ -30,33 +47,29 @@ const LoginPage = () => {
             </div>
           </div>
 
-          {/* RIGHT — LOGIN FORM */}
           <div className="login-right" data-aos="fade-left">
             <div className="form-container">
               <h2 className="form-title">Login to Your Account</h2>
 
-              <form className="login-form">
+              <form className="login-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label>Email Address</label>
-                  <input type="email" placeholder="Enter your email" required />
+                  <input type="email" name="email" value={form.email} onChange={handleChange} placeholder="Enter your email" required />
                 </div>
 
                 <div className="form-group">
                   <label>Password</label>
-                  <input type="password" placeholder="Enter your password" required />
+                  <input type="password" name="password" value={form.password} onChange={handleChange} placeholder="Enter your password" required />
                 </div>
 
                 <button type="submit" className="login-btn">Login</button>
 
-                <p className="signup-text">
-                  Don't have an account? <Link to="/signup" className="signup-link">Sign Up</Link>
-                </p>
+                <p className="signup-text">Don't have an account? <Link to="/signup" className="signup-link">Sign Up</Link></p>
               </form>
             </div>
           </div>
         </div>
       </div>
-
       <Footer />
     </>
   );
