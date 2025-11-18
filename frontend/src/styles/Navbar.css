@@ -122,6 +122,44 @@
   box-shadow: 0 4px 12px rgba(196,158,105,0.5);
 }
 
+.avatar {
+  width: 40px;
+  height: 40px;
+  background: #4a4a4a;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.avatar:hover {
+  background: black;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logout {
+  background: transparent;
+  border: 1px solid #d9534f;
+  padding: 6px 12px;
+  color: #d9534f;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.logout:hover {
+  background: #d9534f;
+  color: white;
+}
+
 /* Hamburger Menu */
 .hamburger {
   display: none;  /* hidden on desktop */

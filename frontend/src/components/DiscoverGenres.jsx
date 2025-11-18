@@ -5,40 +5,29 @@ import BookCard from "./BookCard";
 import AOS from "aos";
 import "aos/dist/aos.css";              
 
-// Genres to display
 const GENRES = [
-  "Fiction",
-  "Mystery",
-  "Thriller",
-  "Science Fiction",
-  "Fantasy",
-  "Romance",
-  "Horror",
-  "Historical",
+  "Fiction", "Mystery", "Thriller", "Science Fiction",
+  "Fantasy", "Romance", "Horror", "Historical",
 ];
 
-const DiscoverGenres = ({ onView, onFav, shelfRef, favorites }) => {
+const DiscoverGenres = ({ onView, onFav, shelfRef, favorites, searchQuery }) => {
   const [books, setBooks] = useState([]);           
   const [activeGenre, setActiveGenre] = useState(""); 
   const [loading, setLoading] = useState(false);   
 
-  const location = useLocation(); // get URL params
+  const location = useLocation();
 
-  // Initialize AOS animations
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
 
-  // Function to fetch books by genre
-  const fetchBooksByGenre = async (genre) => {
+  const fetchBooks = async (url, genre = "") => {
     setActiveGenre(genre);
     setBooks([]);
     setLoading(true);
 
     try {
-      const response = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=subject:${genre}&maxResults=12`
-      );
+      const response = await fetch(url);
       const data = await response.json();
 
       if (data.items) {
@@ -48,9 +37,7 @@ const DiscoverGenres = ({ onView, onFav, shelfRef, favorites }) => {
           author: item.volumeInfo.authors
             ? item.volumeInfo.authors.join(", ")
             : "Unknown Author",
-          image:
-            item.volumeInfo.imageLinks?.thumbnail ||
-            "https://via.placeholder.com/200x300?text=No+Image",
+          image: item.volumeInfo.imageLinks?.thumbnail || "https://via.placeholder.com/200x300?text=No+Image",
           fav: favorites.some((b) => b.id === item.id),
           rating: item.volumeInfo.averageRating || "N/A",
           description: item.volumeInfo.description || "No description available",
@@ -69,13 +56,25 @@ const DiscoverGenres = ({ onView, onFav, shelfRef, favorites }) => {
     }
   };
 
-  // Sync favorites state
+  // Fetch genre books
+  const fetchBooksByGenre = (genre) => {
+    const formattedGenre = encodeURIComponent(genre);
+    const url = `https://www.googleapis.com/books/v1/volumes?q=subject:${formattedGenre}&orderBy=newest&maxResults=12`;
+    fetchBooks(url, genre);
+  };
+
+  // Fetch search results
+  useEffect(() => {
+    if (searchQuery && searchQuery.trim() !== "") {
+      const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(searchQuery)}&orderBy=newest&maxResults=12`;
+      fetchBooks(url, ""); // reset active genre
+    }
+  }, [searchQuery]);
+
   const handleFavClick = (book) => {
     onFav(book); 
     setBooks((prevBooks) =>
-      prevBooks.map((b) =>
-        b.id === book.id ? { ...b, fav: !b.fav } : b
-      )
+      prevBooks.map((b) => (b.id === book.id ? { ...b, fav: !b.fav } : b))
     );
   };
 
@@ -88,19 +87,17 @@ const DiscoverGenres = ({ onView, onFav, shelfRef, favorites }) => {
     );
   }, [favorites]);
 
-  // On first load, checks if URL has ?genre= and auto-fetch
+  // Auto-fetch genre from URL params on first load
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const genreFromURL = params.get("genre");
-
     if (genreFromURL) {
-      const formattedGenre =
-        genreFromURL.charAt(0).toUpperCase() + genreFromURL.slice(1);
+      const formattedGenre = genreFromURL.charAt(0).toUpperCase() + genreFromURL.slice(1);
       if (GENRES.includes(formattedGenre)) {
         fetchBooksByGenre(formattedGenre);
       }
     }
-  }, [location.search]); // run whenever URL query changes
+  }, [location.search]);
 
   return (
     <section className="genre-section" data-aos="fade-up">
@@ -140,9 +137,11 @@ const DiscoverGenres = ({ onView, onFav, shelfRef, favorites }) => {
         </div>
       ) : (
         <p className="no-books">
-          {activeGenre
+          {searchQuery
+            ? "No books found for your search."
+            : activeGenre
             ? "No books found for this genre."
-            : "Select a genre to explore books."}
+            : "Select a genre or search to explore books."}
         </p>
       )}
     </section>

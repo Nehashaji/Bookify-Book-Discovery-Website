@@ -1,31 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/discoverHeader.css"; 
 import "aos/dist/aos.css";
 import AOS from "aos";
 
-const DiscoverHeader = () => {
+const DiscoverHeader = ({ onSearch }) => {
+  const [query, setQuery] = useState("");
+
   // Initialize AOS for animations
   useEffect(() => {
     AOS.init({ duration: 1200, once: true });
   }, []);
 
+  const handleSearch = () => {
+    if (query.trim() === "") return; 
+    onSearch(query.trim());
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") handleSearch();
+  };
+
   return (
     <section className="discover-header">
-      {/* Animated Background Layer */}
       <div
         className="discover-bg"
-        data-aos="fade-in"       // Animation type
-        data-aos-duration="1500" // Animation duration
+        data-aos="fade-in"
+        data-aos-duration="1500"
       ></div>
 
-      {/* Content */}
       <div className="discover-container" data-aos="fade-up">
-        {/* Heading */}
         <h2 className="discover-title">
           Discover Books That Speak to You
         </h2>
-
-        {/* Subtitle */}
         <p className="discover-subtitle">
           Browse a world of books, from bestselling authors to hidden treasures waiting to be discovered.
         </p>
@@ -35,8 +41,11 @@ const DiscoverHeader = () => {
           <input
             type="text"
             placeholder="Search for books by title, author, or genre..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyPress={handleKeyPress}
           />
-          <button>Search</button>
+          <button onClick={handleSearch}>Search</button>
         </div>
       </div>
     </section>
