@@ -8,8 +8,9 @@ import "aos/dist/aos.css";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { GoogleLogin } from "@react-oauth/google";
 
-const API_URL = "http://localhost:5000/api/users";
+const API_URL = "http://localhost:5000/auth";
 
 const LoginPage = () => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -27,6 +28,20 @@ const LoginPage = () => {
     } catch (err) {
       toast.error(err.response?.data?.error || "Login failed");
     }
+  };
+
+  const handleGoogleLoginSuccess = async (credentialResponse) => {
+    try {
+      const res = await axios.post(`${API_URL}/google-login`, { token: credentialResponse.credential });
+      localStorage.setItem("token", res.data.token);
+      toast.success("Logged in with Google!");
+    } catch (err) {
+      toast.error(err.response?.data?.error || "Google login failed");
+    }
+  };
+
+  const handleGoogleLoginFailure = () => {
+    toast.error("Google login failed");
   };
 
   return (
@@ -50,22 +65,25 @@ const LoginPage = () => {
           <div className="login-right" data-aos="fade-left">
             <div className="form-container">
               <h2 className="form-title">Login to Your Account</h2>
-
               <form className="login-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label>Email Address</label>
                   <input type="email" name="email" value={form.email} onChange={handleChange} placeholder="Enter your email" required />
                 </div>
-
                 <div className="form-group">
                   <label>Password</label>
                   <input type="password" name="password" value={form.password} onChange={handleChange} placeholder="Enter your password" required />
                 </div>
-
                 <button type="submit" className="login-btn">Login</button>
-
-                <p className="signup-text">Don't have an account? <Link to="/signup" className="signup-link">Sign Up</Link></p>
               </form>
+
+              <div className="divider">or</div>
+              <GoogleLogin
+                onSuccess={handleGoogleLoginSuccess}
+                onError={handleGoogleLoginFailure}
+              />
+
+              <p className="signup-text">Don't have an account? <Link to="/signup" className="signup-link">Sign Up</Link></p>
             </div>
           </div>
         </div>
