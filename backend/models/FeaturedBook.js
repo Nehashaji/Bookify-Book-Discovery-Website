@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const FeaturedBookSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -9,4 +9,4 @@ const FeaturedBookSchema = new mongoose.Schema({
   order: { type: Number, default: 0 },
 });
 
-export default mongoose.model("FeaturedBook", FeaturedBookSchema);
+module.exports = mongoose.model("FeaturedBook", FeaturedBookSchema);

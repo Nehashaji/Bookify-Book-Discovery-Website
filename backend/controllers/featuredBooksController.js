@@ -1,7 +1,7 @@
-import FeaturedBook from "../models/FeaturedBook.js";
+const FeaturedBook = require("../models/FeaturedBook");
 
 // GET all books
-export const getBooks = async (req, res) => {
+const getBooks = async (req, res) => {
   try {
     const books = await FeaturedBook.find().sort({ order: 1 });
     res.json(books);
@@ -10,8 +10,8 @@ export const getBooks = async (req, res) => {
   }
 };
 
-// POST a new book
-export const addBook = async (req, res) => {
+// POST new book
+const addBook = async (req, res) => {
   try {
     const count = await FeaturedBook.countDocuments();
     const newBook = new FeaturedBook({ ...req.body, order: count });
@@ -23,21 +23,17 @@ export const addBook = async (req, res) => {
 };
 
 // PUT update book
-export const updateBook = async (req, res) => {
+const updateBook = async (req, res) => {
   try {
-    const updatedBook = await FeaturedBook.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    const updatedBook = await FeaturedBook.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(updatedBook);
   } catch (err) {
     res.status(500).json({ error: "Server Error" });
   }
 };
 
-// DELETE a book
-export const deleteBook = async (req, res) => {
+// DELETE book
+const deleteBook = async (req, res) => {
   try {
     await FeaturedBook.findByIdAndDelete(req.params.id);
     res.json({ message: "Book deleted" });
@@ -45,3 +41,5 @@ export const deleteBook = async (req, res) => {
     res.status(500).json({ error: "Server Error" });
   }
 };
+
+module.exports = { getBooks, addBook, updateBook, deleteBook };
