@@ -11,16 +11,41 @@ import BookModal from "../components/BookModal";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "../styles/FeaturedBooks.css";
+import "../styles/LoginPromptModal.css";
 import { FaStar } from "react-icons/fa";
+
+// Login Prompt Modal Component
+const LoginPromptModal = ({ onClose }) => (
+  <div className="login-prompt-overlay">
+    <div className="login-prompt-modal">
+      <button className="close-btn" onClick={onClose}>✕</button>
+      <h2>Join Bookify to Save Your Favorites!</h2>
+      <p>Sign up or log in to store your favorite books.</p>
+      <div className="login-buttons">
+        <button className="login-btn" onClick={() => (window.location.href = "/login")}>
+          Log In
+        </button>
+        <button className="signup-btn" onClick={() => (window.location.href = "/signup")}>
+          Sign Up
+        </button>
+      </div>
+    </div>
+  </div>
+);
 
 const HomePage = ({ onFav, shelfRef, favorites }) => {
   const [featuredBooks, setFeaturedBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const scrollRef = useRef(null);
 
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
     fetchFeaturedBooks();
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) setIsLoggedIn(true);
   }, []);
 
   const fetchFeaturedBooks = async () => {
@@ -36,19 +61,17 @@ const HomePage = ({ onFav, shelfRef, favorites }) => {
     }
   };
 
-  const scrollLeft = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
-    }
-  };
-
-  const scrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
-    }
-  };
-
+  const scrollLeft = () => scrollRef.current?.scrollBy({ left: -300, behavior: "smooth" });
+  const scrollRight = () => scrollRef.current?.scrollBy({ left: 300, behavior: "smooth" });
   const handleView = (book) => setSelectedBook(book);
+
+  const handleFavWithLoginCheck = (book) => {
+    if (!isLoggedIn) {
+      setShowLoginPrompt(true);
+      return;
+    }
+    onFav(book);
+  };
 
   return (
     <div>
@@ -56,9 +79,11 @@ const HomePage = ({ onFav, shelfRef, favorites }) => {
 
       <PopularBooks
         onView={handleView}
-        onFav={onFav}
+        onFav={handleFavWithLoginCheck}
         shelfRef={shelfRef}
         favorites={favorites}
+        isLoggedIn={isLoggedIn}
+        showLoginPrompt={() => setShowLoginPrompt(true)}
       />
 
       <section className="featured-books-section" data-aos="fade-up">
@@ -70,45 +95,43 @@ const HomePage = ({ onFav, shelfRef, favorites }) => {
 
         {featuredBooks.length > 0 ? (
           <div className="carousel-wrapper">
-            <button className="carousel-btn left" onClick={scrollLeft}>
-              ❮
-            </button>
+            <button className="carousel-btn left" onClick={scrollLeft}>❮</button>
 
             <div className="carousel-container" ref={scrollRef}>
               {featuredBooks.map((book) => {
                 const isFav = favorites.some((f) => f.id === book._id);
                 return (
-                  <div
-                    key={book._id}
-                    className="book-card-wrapper"
-                    data-aos="fade-up"
-                  >
+                  <div key={book._id} className="book-card-wrapper" data-aos="fade-up">
                     <BookCard
-                      book={{
-                        ...book,
-                        fav: isFav,
-                        image: book.image, 
-                      }}
+                      book={{ ...book, fav: isFav, image: book.image }}
                       onView={handleView}
-                      onFav={onFav}
+                      onFav={() => handleFavWithLoginCheck(book)}
                       favorites={favorites}
                       shelfRef={shelfRef}
+                      isLoggedIn={isLoggedIn}
+                      showLoginPrompt={() => setShowLoginPrompt(true)}
                     />
                   </div>
                 );
               })}
             </div>
 
-            <button className="carousel-btn right" onClick={scrollRight}>
-              ❯
-            </button>
+            <button className="carousel-btn right" onClick={scrollRight}>❯</button>
           </div>
         ) : (
           <p className="no-books-text">No featured books available yet.</p>
         )}
       </section>
 
-      <TrendingGenres onView={handleView} onFav={onFav} />
+      <TrendingGenres
+        onView={handleView}
+        onFav={handleFavWithLoginCheck}
+        shelfRef={shelfRef}
+        favorites={favorites}
+        isLoggedIn={isLoggedIn}
+        showLoginPrompt={() => setShowLoginPrompt(true)}
+      />
+
       <WhyChooseUs />
       <CTASection />
       <Footer />
@@ -122,8 +145,12 @@ const HomePage = ({ onFav, shelfRef, favorites }) => {
             ),
           }}
           onClose={() => setSelectedBook(null)}
-          onFav={onFav}
+          onFav={() => handleFavWithLoginCheck(selectedBook)}
         />
+      )}
+
+      {showLoginPrompt && (
+        <LoginPromptModal onClose={() => setShowLoginPrompt(false)} />
       )}
     </div>
   );

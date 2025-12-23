@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";  
-import "../styles/discoverGenres.css"; 
-import BookCard from "./BookCard";     
+import { useLocation } from "react-router-dom";
+import "../styles/discoverGenres.css";
+import BookCard from "./BookCard";
+import BookModal from "./BookModal";
 import AOS from "aos";
-import "aos/dist/aos.css";              
+import "aos/dist/aos.css";
 
 const GENRES = [
   "Fiction", "Mystery", "Thriller", "Science Fiction",
   "Fantasy", "Romance", "Horror", "Historical",
 ];
 
-const DiscoverGenres = ({ onView, onFav, shelfRef, favorites, searchQuery }) => {
-  const [books, setBooks] = useState([]);           
-  const [activeGenre, setActiveGenre] = useState(""); 
-  const [loading, setLoading] = useState(false);   
-
+const DiscoverGenres = ({ onView, onFav, shelfRef, favorites, searchQuery, isLoggedIn, showLoginPrompt }) => {
+  const [books, setBooks] = useState([]);
+  const [activeGenre, setActiveGenre] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [selectedBook, setSelectedBook] = useState(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -56,23 +57,25 @@ const DiscoverGenres = ({ onView, onFav, shelfRef, favorites, searchQuery }) => 
     }
   };
 
-  // Fetch genre books
   const fetchBooksByGenre = (genre) => {
     const formattedGenre = encodeURIComponent(genre);
     const url = `https://www.googleapis.com/books/v1/volumes?q=subject:${formattedGenre}&orderBy=newest&maxResults=12`;
     fetchBooks(url, genre);
   };
 
-  // Fetch search results
   useEffect(() => {
     if (searchQuery && searchQuery.trim() !== "") {
       const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(searchQuery)}&orderBy=newest&maxResults=12`;
-      fetchBooks(url, ""); // reset active genre
+      fetchBooks(url, "");
     }
   }, [searchQuery]);
 
   const handleFavClick = (book) => {
-    onFav(book); 
+    if (!isLoggedIn) {
+      showLoginPrompt();
+      return;
+    }
+    onFav(book);
     setBooks((prevBooks) =>
       prevBooks.map((b) => (b.id === book.id ? { ...b, fav: !b.fav } : b))
     );
@@ -87,7 +90,6 @@ const DiscoverGenres = ({ onView, onFav, shelfRef, favorites, searchQuery }) => 
     );
   }, [favorites]);
 
-  // Auto-fetch genre from URL params on first load
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const genreFromURL = params.get("genre");
@@ -99,11 +101,12 @@ const DiscoverGenres = ({ onView, onFav, shelfRef, favorites, searchQuery }) => 
     }
   }, [location.search]);
 
+  const handleView = (book) => setSelectedBook(book);
+
   return (
     <section className="genre-section" data-aos="fade-up">
       <h2 className="genre-header">Filter by Genre:</h2>
 
-      {/* Genre filter buttons */}
       <div className="genre-buttons">
         {GENRES.map((genre) => (
           <button
@@ -116,7 +119,6 @@ const DiscoverGenres = ({ onView, onFav, shelfRef, favorites, searchQuery }) => 
         ))}
       </div>
 
-      {/* Show loading spinner */}
       {loading ? (
         <div className="loading">
           <div className="spinner"></div>
@@ -128,9 +130,11 @@ const DiscoverGenres = ({ onView, onFav, shelfRef, favorites, searchQuery }) => 
             <div data-aos="fade-up" key={book.id}>
               <BookCard
                 book={book}
-                onView={() => onView(book)}
+                onView={() => handleView(book)}
                 onFav={() => handleFavClick(book)}
                 shelfRef={shelfRef}
+                isLoggedIn={isLoggedIn}
+                showLoginPrompt={showLoginPrompt}
               />
             </div>
           ))}
@@ -143,6 +147,14 @@ const DiscoverGenres = ({ onView, onFav, shelfRef, favorites, searchQuery }) => 
             ? "No books found for this genre."
             : "Select a genre or search to explore books."}
         </p>
+      )}
+
+      {selectedBook && (
+        <BookModal
+          book={selectedBook}
+          onClose={() => setSelectedBook(null)}
+          onFav={() => handleFavClick(selectedBook)}
+        />
       )}
     </section>
   );

@@ -2,14 +2,34 @@ import React from "react";
 import "../styles/BookCard.css";
 import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
 
-const BookCard = ({ book, onView, onFav, shelfRef }) => {
+const BookCard = ({
+  book,
+  onView,
+  onFav,
+  shelfRef,
+  isLoggedIn,
+  showLoginPrompt,
+}) => {
   const handleFavClick = (e) => {
+    e.stopPropagation();
+
+    // Not logged in → show login/signup modal
+    if (!isLoggedIn) {
+      showLoginPrompt && showLoginPrompt();
+      return;
+    }
+
+    // Remove from favorites (no animation)
     if (book.fav) {
       onFav(book);
       return;
     }
 
-    const bookEl = e.currentTarget.closest(".book-card").querySelector("img");
+    // Add to favorites with animation
+    const bookEl = e.currentTarget
+      .closest(".book-card")
+      ?.querySelector("img");
+
     if (!bookEl || !shelfRef?.current) {
       onFav(book);
       return;
@@ -20,17 +40,18 @@ const BookCard = ({ book, onView, onFav, shelfRef }) => {
 
     const clone = bookEl.cloneNode(true);
     clone.style.position = "fixed";
-    clone.style.top = bookRect.top + "px";
-    clone.style.left = bookRect.left + "px";
-    clone.style.width = bookRect.width + "px";
-    clone.style.height = bookRect.height + "px";
+    clone.style.top = `${bookRect.top}px`;
+    clone.style.left = `${bookRect.left}px`;
+    clone.style.width = `${bookRect.width}px`;
+    clone.style.height = `${bookRect.height}px`;
     clone.style.transition = "all 0.8s ease-in-out";
     clone.style.zIndex = 9999;
+
     document.body.appendChild(clone);
 
     requestAnimationFrame(() => {
-      clone.style.top = shelfRect.top + "px";
-      clone.style.left = shelfRect.left + "px";
+      clone.style.top = `${shelfRect.top}px`;
+      clone.style.left = `${shelfRect.left}px`;
       clone.style.width = "40px";
       clone.style.height = "60px";
       clone.style.opacity = 0.5;
@@ -42,7 +63,10 @@ const BookCard = ({ book, onView, onFav, shelfRef }) => {
 
       if (shelfRef?.current) {
         shelfRef.current.classList.add("shelf-glow");
-        setTimeout(() => shelfRef.current.classList.remove("shelf-glow"), 500);
+        setTimeout(
+          () => shelfRef.current.classList.remove("shelf-glow"),
+          500
+        );
       }
     });
   };
@@ -65,7 +89,11 @@ const BookCard = ({ book, onView, onFav, shelfRef }) => {
 
       <div className="cover-wrap" onClick={() => onView && onView(book)}>
         <img
-          src={book.image || book.cover || "https://via.placeholder.com/200x300?text=No+Image"}
+          src={
+            book.image ||
+            book.cover ||
+            "https://via.placeholder.com/200x300?text=No+Image"
+          }
           alt={book.title}
           className="book-cover"
         />
@@ -83,6 +111,6 @@ const BookCard = ({ book, onView, onFav, shelfRef }) => {
       </div>
     </div>
   );
-}; 
+};
 
 export default BookCard;

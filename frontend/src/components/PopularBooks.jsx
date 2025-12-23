@@ -1,8 +1,3 @@
-// ----------- PopularBooks.jsx ----------------
-// This component fetches popular books from the NYT API
-// Displays them in a horizontal scrollable carousel
-// Each book can be favorited and opened in a modal for details
-
 import React, { useEffect, useState, useRef } from "react";
 import BookCard from "./BookCard";
 import BookModal from "./BookModal";
@@ -11,7 +6,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { FaChevronLeft, FaChevronRight, FaStar } from "react-icons/fa";
 
-const PopularBooks = ({ shelfRef, onFav, onView, favorites }) => {
+const PopularBooks = ({ shelfRef, onFav, onView, favorites, isLoggedIn, showLoginPrompt }) => {
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
   const scrollRef = useRef(null);
@@ -36,7 +31,7 @@ const PopularBooks = ({ shelfRef, onFav, onView, favorites }) => {
             description: book.description,
             rating: (Math.random() * 2 + 3).toFixed(1),
             previewLink: book.amazon_product_url,
-            fav: favorites.some((f) => f.id === book.primary_isbn13), 
+            fav: favorites.some((f) => f.id === book.primary_isbn13),
             rank: book.rank,
             rank_last_week: book.rank_last_week,
             weeks_on_list: book.weeks_on_list,
@@ -50,7 +45,7 @@ const PopularBooks = ({ shelfRef, onFav, onView, favorites }) => {
     };
 
     fetchPopularBooks();
-  }, [favorites]); 
+  }, [favorites]);
 
   const scroll = (direction) => {
     if (scrollRef.current) {
@@ -59,6 +54,17 @@ const PopularBooks = ({ shelfRef, onFav, onView, favorites }) => {
         direction === "left" ? scrollLeft - clientWidth : scrollLeft + clientWidth;
       scrollRef.current.scrollTo({ left: scrollAmount, behavior: "smooth" });
     }
+  };
+
+  const handleFavClick = (book) => {
+    if (!isLoggedIn) {
+      showLoginPrompt();
+      return;
+    }
+    onFav(book);
+    setBooks((prevBooks) =>
+      prevBooks.map((b) => (b.id === book.id ? { ...b, fav: !b.fav } : b))
+    );
   };
 
   return (
@@ -84,8 +90,10 @@ const PopularBooks = ({ shelfRef, onFav, onView, favorites }) => {
                   setSelectedBook(book);
                   onView(book);
                 }}
-                onFav={() => onFav(book)}
+                onFav={() => handleFavClick(book)}
                 shelfRef={shelfRef}
+                isLoggedIn={isLoggedIn}
+                showLoginPrompt={showLoginPrompt}
               />
             </div>
           ))
@@ -98,7 +106,7 @@ const PopularBooks = ({ shelfRef, onFav, onView, favorites }) => {
         <BookModal
           book={selectedBook}
           onClose={() => setSelectedBook(null)}
-          onFav={() => onFav(selectedBook)} 
+          onFav={() => handleFavClick(selectedBook)}
         />
       )}
     </section>

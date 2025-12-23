@@ -1,0 +1,135 @@
+/* ===== Overlay ===== */
+.login-prompt-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(58, 42, 28, 0.55); /* warm brown tint */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.35s ease-in-out;
+}
+
+/* ===== Modal ===== */
+.login-prompt-modal {
+  background: linear-gradient(180deg, #fffaf3, #f4ede4); /* crème paper look */
+  border-radius: 20px;
+  padding: 34px 42px;
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  box-shadow:
+    0 20px 40px rgba(58, 42, 28, 0.35),
+    inset 0 0 0 1px rgba(212, 175, 55, 0.25); /* subtle gold edge */
+  animation: slideDown 0.45s cubic-bezier(.25,.8,.25,1);
+}
+
+/* ===== Close Button ===== */
+.close-btn {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #6b4f35;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #d4af37; /* gold */
+  transform: rotate(90deg);
+}
+
+/* ===== Heading ===== */
+.login-prompt-modal h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: #4a3322; /* dark brown */
+  letter-spacing: 0.3px;
+}
+
+/* ===== Description ===== */
+.login-prompt-modal p {
+  font-size: 16px;
+  color: #6b4f35;
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+/* ===== Buttons Container ===== */
+.login-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* ===== Login Button (Brown → Gold) ===== */
+.login-btn {
+  background: linear-gradient(135deg, #6b4f35, #d4af37);
+  color: #fffaf3;
+  border: none;
+  padding: 12px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 14px rgba(107, 79, 53, 0.35);
+}
+
+.login-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px rgba(107, 79, 53, 0.45);
+}
+
+/* ===== Signup Button (Gold Outline / Luxe Feel) ===== */
+.signup-btn {
+  background: transparent;
+  color: #6b4f35;
+  border: 2px solid #d4af37;
+  padding: 10px 26px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.signup-btn:hover {
+  background: linear-gradient(135deg, #f7e7b4, #d4af37);
+  color: #4a3322;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(212, 175, 55, 0.45);
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-35px) scale(0.96); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 480px) {
+  .login-prompt-modal {
+    padding: 26px 28px;
+  }
+
+  .login-buttons {
+    flex-direction: column;
+  }
+
+  .login-btn,
+  .signup-btn {
+    width: 100%;
+  }
+}
