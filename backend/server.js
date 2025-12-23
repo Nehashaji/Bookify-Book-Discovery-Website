@@ -2,10 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const jwt = require("jsonwebtoken");
 
 // Models
@@ -19,44 +16,33 @@ const featuredRoutes = require("./routes/featuredBooksRoutes");
 const app = express();
 
 // Middleware
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
-app.use(passport.initialize());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    credentials: true,
+  })
+);
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+// MongoDB connection
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
-  .catch(err => console.error("MongoDB connection error:", err));
-
-// Passport Google OAuth
-passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
-  },
-  async (accessToken, refreshToken, profile, done) => {
-    try {
-      let user = await User.findOne({ googleId: profile.id }) || await User.findOne({ email: profile.emails[0].value });
-      if (!user) user = await User.create({ googleId: profile.id, email: profile.emails[0].value, name: profile.displayName, avatar: profile.photos[0].value });
-      if (!user.googleId) { user.googleId = profile.id; await user.save(); }
-      return done(null, user);
-    } catch (err) {
-      console.error(err);
-      return done(err, null);
-    }
-  }
-));
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 // Routes
 app.use("/auth", authRoutes);
 app.use("/api/favorites", favRoutes);
 app.use("/api/featured", featuredRoutes);
 
-// JWT-Protected endpoint
+// JWT Protected route
 app.get("/api/user/me", async (req, res) => {
   const authHeader = req.headers.authorization || "";
-  const token = authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : null;
+  const token = authHeader.startsWith("Bearer ")
+    ? authHeader.split(" ")[1]
+    : null;
+
   if (!token) return res.status(401).json({ message: "No token provided" });
 
   try {
@@ -70,8 +56,8 @@ app.get("/api/user/me", async (req, res) => {
   }
 });
 
-// Root
-app.get("/", (req, res) => res.send("Bookify API is running with Google OAuth..."));
+// Root endpoint
+app.get("/", (req, res) => res.send("Bookify API is running..."));
 
 // Start server
 const PORT = process.env.PORT || 5000;

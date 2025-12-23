@@ -1,6 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
+import axios from "axios";
 
 import Navbar from "./components/Navbar";
 import ScrollToTop from "./components/ScrollToTop";
@@ -14,35 +15,110 @@ import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 import AdminPanel from "./pages/AdminPanel";
 
+import { useAuth } from "./context/AuthContext";
+
 import "./App.css";
 
 function App() {
   const [selectedBook, setSelectedBook] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const shelfRef = useRef(null);
+  const { user } = useAuth();
 
-  // Opens Book Modal
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      if (!user) return;
+
+      try {
+        const token = localStorage.getItem("token");
+        const res = await axios.get("http://localhost:5000/api/favorites", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const formattedFavorites = Array.from(
+          new Map(
+            res.data.favorites.map((f) => [
+              f.bookId,
+              {
+                ...f,
+                id: f.bookId,
+                fav: true,
+                image: f.image || f.cover || f.coverUrl || "",
+              },
+            ])
+          ).values()
+        );
+
+        setFavorites(formattedFavorites);
+      } catch (err) {
+        console.error("Failed to fetch favorites:", err);
+      }
+    };
+
+    fetchFavorites();
+  }, [user]);
+
   const handleView = (book) => setSelectedBook(book);
   const handleClose = () => setSelectedBook(null);
 
-  // Add/Remove from Favorites
-  const handleFav = (book) => {
-    const bookId = book.id || book._id; 
+  const handleFav = async (book) => {
+    const bookId = book.id || book._id;
     const exists = favorites.some((b) => b.id === bookId);
-    const newFavorites = exists
-      ? favorites.filter((b) => b.id !== bookId)
-      : [...favorites, { ...book, id: bookId }];
 
-    setFavorites(newFavorites);
+    try {
+      const token = localStorage.getItem("token");
 
-    if (selectedBook && (selectedBook.id || selectedBook._id) === bookId) {
-      setSelectedBook({ ...selectedBook, fav: !exists });
+      if (exists) {
+        await axios.delete(`http://localhost:5000/api/favorites/${bookId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        setFavorites((prev) => prev.filter((b) => b.id !== bookId));
+
+        if (selectedBook && (selectedBook.id || selectedBook._id) === bookId) {
+          setSelectedBook({ ...selectedBook, fav: false });
+        }
+
+        toast.dismiss();
+        toast.error(`Removed "${book.title}" from your shelf`);
+      } else {
+        const bookImage = book.cover || book.image || book.coverUrl || "";
+
+        await axios.post(
+          "http://localhost:5000/api/favorites",
+          {
+            bookId,
+            title: book.title,
+            author: book.author,
+            image: bookImage,
+            previewLink: book.previewLink,
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        const newFav = {
+          ...book,
+          id: bookId,
+          fav: true,
+          image: bookImage,
+        };
+
+        setFavorites((prev) => [
+          ...prev.filter((b) => b.id !== bookId),
+          newFav,
+        ]);
+
+        if (selectedBook && (selectedBook.id || selectedBook._id) === bookId) {
+          setSelectedBook({ ...selectedBook, fav: true });
+        }
+
+        toast.dismiss();
+        toast.success(`Added "${book.title}" to your shelf`);
+      }
+    } catch (err) {
+      console.error("Failed to update favorites:", err);
+      toast.error("Failed to update favorites.");
     }
-
-    toast.dismiss();
-    toast[exists ? "error" : "success"](
-      `${exists ? "Removed" : "Added"} "${book.title}" ${exists ? "from" : "to"} your shelf`
-    );
   };
 
   return (
@@ -91,10 +167,14 @@ function App() {
         </Routes>
       </main>
 
-      {/* Book Modal */}
       {selectedBook && (
         <BookModal
-          book={selectedBook}  
+          book={{
+            ...selectedBook,
+            fav: favorites.some(
+              (f) => f.id === selectedBook._id || f.id === selectedBook.id
+            ),
+          }}
           onClose={handleClose}
           onFav={handleFav}
         />

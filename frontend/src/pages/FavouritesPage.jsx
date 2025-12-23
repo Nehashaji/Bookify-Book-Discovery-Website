@@ -6,27 +6,23 @@ import "aos/dist/aos.css";
 import Footer from "../components/Footer";
 
 const FavoritesPage = ({ favorites, onFav, onView }) => {
-  const [favBooks, setFavBooks] = useState([]);
   const [removingBookId, setRemovingBookId] = useState(null);
 
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
-    setFavBooks(favorites.map((book) => ({ ...book, fav: true })));
-  }, [favorites]);
+  }, []);
 
   const handleRemoveFav = (book) => {
     setRemovingBookId(book.id);
 
     setTimeout(() => {
-      setFavBooks((prev) => prev.filter((b) => b.id !== book.id));
       onFav(book);
       setRemovingBookId(null);
-    }, 1000);
+    }, 500);
   };
 
   return (
     <div className="favorites-page">
-      {/* Hero Section */}
       <header className="favorites-hero" data-aos="fade-down">
         <div className="hero-overlay">
           <div className="hero-content">
@@ -36,10 +32,9 @@ const FavoritesPage = ({ favorites, onFav, onView }) => {
         </div>
       </header>
 
-      {/* Favorites Grid */}
-      {favBooks.length > 0 ? (
+      {favorites.length > 0 ? (
         <section className="favorites-grid">
-          {favBooks.map((book) => (
+          {favorites.map((book) => (
             <div
               className={`book-card-wrapper ${
                 removingBookId === book.id ? "fade-out" : ""
@@ -48,7 +43,11 @@ const FavoritesPage = ({ favorites, onFav, onView }) => {
               data-aos={removingBookId === book.id ? "" : "zoom-in"}
             >
               <BookCard
-                book={book}
+                book={{
+                  ...book,
+                  fav: true,
+                  image: book.image || "", 
+                }}
                 onView={() => onView(book)}
                 onFav={() => handleRemoveFav(book)}
               />

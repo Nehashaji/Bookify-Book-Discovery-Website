@@ -25,8 +25,12 @@ const HomePage = ({ onFav, shelfRef, favorites }) => {
 
   const fetchFeaturedBooks = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/featured-books");
-      setFeaturedBooks(res.data);
+      const res = await axios.get("http://localhost:5000/api/featured");
+      const booksWithImage = res.data.map((b) => ({
+        ...b,
+        image: b.cover || b.image || b.coverUrl || "",
+      }));
+      setFeaturedBooks(booksWithImage);
     } catch (err) {
       console.error("Error fetching featured books:", err);
     }
@@ -50,7 +54,6 @@ const HomePage = ({ onFav, shelfRef, favorites }) => {
     <div>
       <Hero />
 
-      {/* Popular Books Section */}
       <PopularBooks
         onView={handleView}
         onFav={onFav}
@@ -58,7 +61,6 @@ const HomePage = ({ onFav, shelfRef, favorites }) => {
         favorites={favorites}
       />
 
-      {/* Featured Books Section */}
       <section className="featured-books-section" data-aos="fade-up">
         <div className="featured-header">
           <h2 className="section-title">
@@ -82,7 +84,11 @@ const HomePage = ({ onFav, shelfRef, favorites }) => {
                     data-aos="fade-up"
                   >
                     <BookCard
-                      book={{ ...book, fav: isFav }}
+                      book={{
+                        ...book,
+                        fav: isFav,
+                        image: book.image, 
+                      }}
                       onView={handleView}
                       onFav={onFav}
                       favorites={favorites}
@@ -102,18 +108,18 @@ const HomePage = ({ onFav, shelfRef, favorites }) => {
         )}
       </section>
 
-      {/* Other Sections */}
       <TrendingGenres onView={handleView} onFav={onFav} />
       <WhyChooseUs />
       <CTASection />
       <Footer />
 
-      {/* Book Modal */}
       {selectedBook && (
         <BookModal
           book={{
             ...selectedBook,
-            fav: favorites.some((f) => f.id === selectedBook._id || f.id === selectedBook.id),
+            fav: favorites.some(
+              (f) => f.id === selectedBook._id || f.id === selectedBook.id
+            ),
           }}
           onClose={() => setSelectedBook(null)}
           onFav={onFav}

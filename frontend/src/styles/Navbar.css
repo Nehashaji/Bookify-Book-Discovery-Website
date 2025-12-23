@@ -1,50 +1,47 @@
 /* Navbar Section */
-
 /* Main Navbar Container */
 .navbar {
   display: flex; 
-  justify-content: space-between;/* push logo left and links/auth right */
-  align-items: center; /* vertically center items */
-  padding: 1rem 3rem;  /* spacing inside navbar */
-  height: 70px;  /* fixed navbar height */
+  justify-content: space-between;
+  align-items: center; 
+  padding: 1rem 3rem;
+  height: 70px;
   background: #3E2723;
-  position: sticky;/* stays at top on scroll */
+  position: sticky;
   top: 0;
-  z-index: 1000; /* ensures navbar is above other content */
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3); 
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
 /* Logo */
 .nav-logo {
   display: flex;
   align-items: center;
-  gap: 0;
 }
 
 .nav-logo .logo-img {
-  width: 180px; /* fixed width */
+  width: 180px;
   height: auto;
-  object-fit: contain; /* maintain aspect ratio */
+  object-fit: contain;
 }
 
 /* Desktop Navigation Links */
 .nav-links {
-  list-style: none; /* remove default bullets */
+  list-style: none;
   display: flex;
-  gap: 2rem;  /* spacing between links */
+  gap: 2rem;
 }
 
 .nav-links a {
-  position: relative; /* needed for underline effect */
-  text-decoration: none;        /* remove default underline */
-  color: #FAF3E0;     
+  position: relative;
+  text-decoration: none;
+  color: #FAF3E0;
   font-family: "Roboto Serif", serif;
   font-weight: 500;
   font-size: 1rem;
-  transition: all 0.3s ease;    
+  transition: all 0.3s ease;
 }
 
-/* Hover underline animation */
 .nav-links a::after {
   content: '';
   position: absolute;
@@ -52,20 +49,21 @@
   bottom: -4px;
   width: 0%;
   height: 2px;
-  background: linear-gradient(90deg, #C49E69, #D7CCC8); 
+  background: linear-gradient(90deg, #C49E69, #D7CCC8);
   transition: width 0.4s ease;
 }
 
 .nav-links a:hover::after {
-  width: 100%; /* underline expands on hover */
+  width: 100%;
 }
 
 .nav-links a:hover {
-  color: #C49E69;    
-  transform: translateY(-2px); /* lift effect */
-  text-shadow: 0 0 6px rgba(196,158,105,0.4); /* subtle glow */
+  color: #C49E69;
+  transform: translateY(-2px);
+  text-shadow: 0 0 6px rgba(196,158,105,0.4);
 }
 
+/* Shelf Glow Effect */
 .shelf-glow {
   position: relative;
   display: inline-block;
@@ -86,7 +84,7 @@
   align-items: center;
 }
 
-/* Log in button styled as link */
+/* Login Button */
 .nav-auth .login {
   background: transparent;
   border: none;
@@ -103,9 +101,9 @@
   transform: translateY(-2px);
 }
 
-/* Sign up button */
+/* Sign Up Button */
 .nav-auth .signup {
-  background: linear-gradient(90deg, #6D4C41, #3E2723); 
+  background: linear-gradient(90deg, #6D4C41, #3E2723);
   color: #FAF3E0;
   font-weight: 600;
   padding: 0.6rem 1.2rem;
@@ -116,12 +114,13 @@
 }
 
 .nav-auth .signup:hover {
-  background: linear-gradient(90deg, #C49E69, #D7CCC8); 
+  background: linear-gradient(90deg, #C49E69, #D7CCC8);
   color: #2C1810;
   transform: translateY(-2px) scale(1.05);
   box-shadow: 0 4px 12px rgba(196,158,105,0.5);
 }
 
+/* Avatar / Profile */
 .avatar {
   width: 40px;
   height: 40px;
@@ -132,37 +131,161 @@
   align-items: center;
   justify-content: center;
   font-weight: 600;
+  font-family: "Roboto Serif", serif;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.3s ease;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .avatar:hover {
-  background: black;
+  transform: scale(1.1);
 }
 
-.user-section {
+/* ===== Profile Popup Card ===== */
+.profile-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 70px 20px 20px 20px;
+  z-index: 1200;
+}
+
+.profile-modal {
+  background: linear-gradient(145deg, #5D4037, #3E2723);
+  border-radius: 16px;
+  padding: 1.2rem 1.4rem;
+  min-width: 260px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+  color: #FAF3E0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: profileFade 0.25s ease forwards;
+}
+
+/* Arrow */
+.profile-modal::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  right: 18px;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(145deg, #5D4037, #3E2723);
+  transform: rotate(45deg);
+}
+
+/* Top */
+.profile-header {
   display: flex;
   align-items: center;
   gap: 12px;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.25);
 }
 
-.logout {
+.profile-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #C49E69, #FFD700);
+  color: #2C1810;
+  font-weight: 700;
+  font-family: "Roboto Serif", serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.profile-name {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.profile-email {
+  font-size: 0.8rem;
+  color: #FFD700;
+  opacity: 0.85;
+}
+
+/* Middle */
+.profile-actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-actions button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   background: transparent;
-  border: 1px solid #d9534f;
-  padding: 6px 12px;
-  color: #d9534f;
-  border-radius: 6px;
+  border: none;
+  color: #FAF3E0;
+  text-align: left;
+  padding: 0.55rem 0.6rem;
+  border-radius: 8px;
+  font-family: "Roboto Serif", serif;
+  font-size: 0.95rem;
   cursor: pointer;
+  transition: all 0.25s ease;
 }
 
-.logout:hover {
-  background: #d9534f;
-  color: white;
+.profile-actions button:hover {
+  background: rgba(196, 158, 105, 0.25);
+  color: #FFD700;
+  transform: translateX(4px);
 }
+
+.profile-logout {
+  margin-top: 0.8rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(255, 215, 0, 0.25);
+}
+
+.profile-logout button {
+  width: 100%;
+  padding: 0.55rem 0;
+  background: #b41715;
+  border: none;
+  color: #fff;
+  border-radius: 10px;
+  font-family: "Roboto Serif", serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.profile-logout button:hover {
+  background: #d32f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 0, 0, 0.4);
+}
+
+@keyframes profileFade {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 
 /* Hamburger Menu */
 .hamburger {
-  display: none;  /* hidden on desktop */
+  display: none;
   font-size: 2rem;
   cursor: pointer;
   color: #FAF3E0;
@@ -177,26 +300,18 @@
 
 /* Mobile Menu */
 .mobile-menu {
-  display: none;  /* hidden on desktop */
+  display: none;
 }
 
 /* Responsive Styles (Mobile) */
 @media (max-width: 768px) {
-  /* Hide desktop links and auth */
-  .nav-links,
-  .nav-auth {
-    display: none;
-  }
+  .nav-links, .nav-auth { display: none; }
 
-  /* Show hamburger icon */
-  .hamburger {
-    display: block;
-  }
+  .hamburger { display: block; }
 
-  /* Mobile menu container */
   .mobile-menu {
     position: fixed;
-    top: 70px;    /* below navbar */
+    top: 70px;
     left: 0;
     width: 100%;
     height: calc(100vh - 70px);
@@ -206,18 +321,14 @@
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    transform: translateY(-100%); /* initially hidden above */
+    transform: translateY(-100%);
     opacity: 0;
     transition: transform 0.4s ease, opacity 0.4s ease;
     z-index: 1050;
     overflow-y: auto;
   }
 
-  /* Show menu when open */
-  .mobile-menu.open {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  .mobile-menu.open { transform: translateY(0); opacity: 1; }
 
   .mobile-menu ul {
     list-style: none;
@@ -256,19 +367,21 @@
     align-items: center;
   }
 
-  .mobile-auth .login {
+  .mobile-auth .login,
+  .mobile-auth .signup {
     width: 80%;
-    padding: 0.8rem 0;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: 500;
     font-family: "Roboto Serif", serif;
-    background: transparent;
-    border: 2px solid #FAF3E0;
-    color: #FAF3E0;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    font-weight: 500;
+    border-radius: 10px;
     text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .mobile-auth .login {
+    padding: 0.8rem 0;
+    border: 2px solid #FAF3E0;
+    background: transparent;
+    color: #FAF3E0;
   }
 
   .mobile-auth .login:hover {
@@ -279,18 +392,11 @@
   }
 
   .mobile-auth .signup {
-    width: 80%;
     padding: 0.9rem 0;
-    border-radius: 10px;
-    font-size: 1.1rem;
     font-weight: 600;
-    font-family: "Roboto Serif", serif;
     background: linear-gradient(90deg, #C49E69, #D7CCC8);
     color: #2C1810;
     border: none;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.3s ease;
   }
 
   .mobile-auth .signup:hover {
@@ -299,3 +405,4 @@
     transform: translateY(-2px) scale(1.05);
   }
 }
+

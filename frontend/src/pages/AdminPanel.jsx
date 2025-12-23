@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/adminpanel.css";
 
-const API_URL = "http://localhost:5000/api/featured-books";
+const API_URL = "http://localhost:5000/api/featured";
 
 const AdminPanel = () => {
   const [books, setBooks] = useState([]);

@@ -65,11 +65,10 @@ const BookCard = ({ book, onView, onFav, shelfRef }) => {
 
       <div className="cover-wrap" onClick={() => onView && onView(book)}>
         <img
-          src={book.cover || book.image || "https://via.placeholder.com/200x300?text=No+Image"}
+          src={book.image || book.cover || "https://via.placeholder.com/200x300?text=No+Image"}
           alt={book.title}
           className="book-cover"
-         />
-
+        />
       </div>
 
       <div className="card-info" onClick={() => onView && onView(book)}>
@@ -84,6 +83,6 @@ const BookCard = ({ book, onView, onFav, shelfRef }) => {
       </div>
     </div>
   );
-};
+}; 
 
 export default BookCard;

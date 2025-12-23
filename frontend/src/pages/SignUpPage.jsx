@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "../styles/SignUpPage.css";
-import { FcGoogle } from "react-icons/fc";
 import { FiBookOpen, FiHeart, FiGlobe } from "react-icons/fi";
 import { FaPalette } from "react-icons/fa";
 import Footer from "../components/Footer";
@@ -8,32 +7,47 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { GoogleLogin } from "@react-oauth/google";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = "http://localhost:5000/auth";
 
 const SignUpPage = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(`${API_URL}/signup`, form);
-      toast.success(res.data.message);
+
+      login(res.data.token, res.data.user);
+
+      toast.success("Signed up successfully!");
       setForm({ name: "", email: "", password: "" });
+
+      navigate("/");
     } catch (err) {
-      toast.error(err.response?.data?.error || "Registration failed");
+      toast.error(err.response?.data?.message || "Registration failed");
     }
   };
 
   const handleGoogleSignUpSuccess = async (credentialResponse) => {
     try {
-      const res = await axios.post(`${API_URL}/google-signup`, { token: credentialResponse.credential });
+      const res = await axios.post(`${API_URL}/google-signup`, {
+        token: credentialResponse.credential,
+      });
+
+      login(res.data.token, res.data.user);
+
       toast.success("Signed up with Google!");
-      localStorage.setItem("token", res.data.token);
+      navigate("/");
     } catch (err) {
-      toast.error(err.response?.data?.error || "Google signup failed");
+      toast.error(err.response?.data?.message || "Google signup failed");
     }
   };
 
@@ -48,8 +62,13 @@ const SignUpPage = () => {
         <div className="signup-box">
           <div className="signup-left">
             <div className="info-content">
-              <h1>Welcome to <span>Bookify</span></h1>
-              <p>Discover new stories, explore your favorite genres, and stay updated with the latest in the world of books.</p>
+              <h1>
+                Welcome to <span>Bookify</span>
+              </h1>
+              <p>
+                Discover new stories, explore your favorite genres, and stay
+                updated with the latest in the world of books.
+              </p>
               <ul>
                 <li><FiBookOpen className="icon" /> Explore and search books easily</li>
                 <li><FiHeart className="icon" /> Add your favorite reads to your collection</li>
@@ -62,29 +81,59 @@ const SignUpPage = () => {
           <div className="signup-right">
             <div className="form-container">
               <h2 className="form-title">Create Your Account</h2>
+
               <form className="signup-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label>Full Name</label>
-                  <input type="text" name="name" value={form.name} onChange={handleChange} placeholder="Enter your full name" required />
+                  <input
+                    type="text"
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder="Enter your full name"
+                    required
+                  />
                 </div>
+
                 <div className="form-group">
                   <label>Email Address</label>
-                  <input type="email" name="email" value={form.email} onChange={handleChange} placeholder="Enter your email" required />
+                  <input
+                    type="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="Enter your email"
+                    required
+                  />
                 </div>
+
                 <div className="form-group">
                   <label>Password</label>
-                  <input type="password" name="password" value={form.password} onChange={handleChange} placeholder="Create a password" required />
+                  <input
+                    type="password"
+                    name="password"
+                    value={form.password}
+                    onChange={handleChange}
+                    placeholder="Create a password"
+                    required
+                  />
                 </div>
-                <button type="submit" className="signup-btn">Sign Up</button>
+
+                <button type="submit" className="signup-btn">
+                  Sign Up
+                </button>
               </form>
 
               <div className="divider">or</div>
+
               <GoogleLogin
                 onSuccess={handleGoogleSignUpSuccess}
                 onError={handleGoogleSignUpFailure}
               />
 
-              <p className="login-text">Already have an account? <a href="/login">Login</a></p>
+              <p className="login-text">
+                Already have an account? <a href="/login">Login</a>
+              </p>
             </div>
           </div>
         </div>
