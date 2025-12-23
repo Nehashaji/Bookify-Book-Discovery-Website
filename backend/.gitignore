@@ -10,3 +10,7 @@ logs/
 # Ignore temporary files
 .DS_Store
 Thumbs.db
+
+# Ignore environment variables
+.env
+backend/.env
