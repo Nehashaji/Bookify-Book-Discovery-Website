@@ -4,21 +4,23 @@ import BookCard from "../components/BookCard";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Footer from "../components/Footer";
+import { useAuth } from "../context/AuthContext"; 
 
 const FavoritesPage = ({ favorites, onFav, onView }) => {
   const [removingBookId, setRemovingBookId] = useState(null);
+  const { user } = useAuth(); 
 
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
 
-  const handleRemoveFav = (book) => {
+  const handleFavClick = (book) => {
     setRemovingBookId(book.id);
 
     setTimeout(() => {
-      onFav(book);
+      onFav(book); 
       setRemovingBookId(null);
-    }, 500);
+    }, 200);
   };
 
   return (
@@ -36,20 +38,16 @@ const FavoritesPage = ({ favorites, onFav, onView }) => {
         <section className="favorites-grid">
           {favorites.map((book) => (
             <div
+              key={book.id}
               className={`book-card-wrapper ${
                 removingBookId === book.id ? "fade-out" : ""
               }`}
-              key={book.id}
-              data-aos={removingBookId === book.id ? "" : "zoom-in"}
             >
               <BookCard
-                book={{
-                  ...book,
-                  fav: true,
-                  image: book.image || "", 
-                }}
+                book={{ ...book, fav: true }}
                 onView={() => onView(book)}
-                onFav={() => handleRemoveFav(book)}
+                onFav={handleFavClick}
+                isLoggedIn={!!user}   
               />
             </div>
           ))}

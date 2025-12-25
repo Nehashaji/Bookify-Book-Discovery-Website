@@ -13,19 +13,16 @@ const BookCard = ({
   const handleFavClick = (e) => {
     e.stopPropagation();
 
-    // Not logged in → show login/signup modal
     if (!isLoggedIn) {
       showLoginPrompt && showLoginPrompt();
       return;
     }
 
-    // Remove from favorites (no animation)
     if (book.fav) {
       onFav(book);
       return;
     }
 
-    // Add to favorites with animation
     const bookEl = e.currentTarget
       .closest(".book-card")
       ?.querySelector("img");
@@ -59,7 +56,7 @@ const BookCard = ({
 
     clone.addEventListener("transitionend", () => {
       clone.remove();
-      onFav(book);
+      onFav(book); 
 
       if (shelfRef?.current) {
         shelfRef.current.classList.add("shelf-glow");
