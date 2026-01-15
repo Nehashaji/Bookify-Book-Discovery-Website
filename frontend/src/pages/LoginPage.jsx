@@ -13,42 +13,68 @@ import { useAuth } from "../context/AuthContext";
 
 const API_URL = "http://localhost:5000/auth";
 
+/* LoginPage Component
+ * Provides the user interface and functionality for user authentication.
+ * Supports standard email/password login as well as Google OAuth login.
+ * Integrates animations using AOS and real-time notifications using react-toastify.
+ */
 const LoginPage = () => {
+  // State object to manage form inputs for email and password
   const [form, setForm] = useState({ email: "", password: "" });
+
+  // Extract login method from AuthContext to update authentication state
   const { login } = useAuth();
+
+  // React Router navigate function to programmatically redirect users
   const navigate = useNavigate();
 
+  /*useEffect Hook: Initializes AOS library for scroll-based animations
+   * Ensures animations are triggered only once per element appearance
+   */
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
 
+  /*handleChange
+   * Updates form state dynamically as the user types into input fields*/
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
+  /** handleSubmit
+   * Handles submission of login form via email/password.
+   * Sends POST request to backend authentication API.
+   * On success, updates authentication context and navigates to homepage.
+   * Displays toast notifications for both success and error scenarios.*/
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(`${API_URL}/login`, form);
 
-      // ✅ IMPORTANT CHANGE
+      // Store token and user data in context and localStorage
       login(res.data.token, res.data.user);
 
       toast.success("Login successful!");
       setForm({ email: "", password: "" });
 
-      navigate("/"); // redirect after login
+      navigate("/");
     } catch (err) {
       toast.error(err.response?.data?.message || "Login failed");
     }
   };
 
+  /**
+   * handleGoogleLoginSuccess
+   * Handles authentication when a user successfully logs in via Google OAuth.
+   * Sends the Google credential token to the backend for verification.
+   * Updates authentication context on successful login.
+   * @param {Object} credentialResponse - Credential response from Google OAuth
+   */
   const handleGoogleLoginSuccess = async (credentialResponse) => {
     try {
       const res = await axios.post(`${API_URL}/google-login`, {
         token: credentialResponse.credential,
       });
 
-      // ✅ IMPORTANT CHANGE
       login(res.data.token, res.data.user);
 
       toast.success("Logged in with Google!");
@@ -58,15 +84,24 @@ const LoginPage = () => {
     }
   };
 
+  /**
+   * handleGoogleLoginFailure
+   * Displays an error toast notification if Google login fails
+   */
   const handleGoogleLoginFailure = () => {
     toast.error("Google login failed");
   };
 
   return (
     <>
+      {/* ToastContainer displays real-time notifications */}
       <ToastContainer />
+
+      {/* Main login wrapper */}
       <div className="login-wrapper">
         <div className="login-box">
+
+          {/* Left informational panel with app features */}
           <div className="login-left">
             <div className="info-content" data-aos="fade-right">
               <h1>
@@ -82,10 +117,12 @@ const LoginPage = () => {
             </div>
           </div>
 
+          {/* Right panel containing login form */}
           <div className="login-right" data-aos="fade-left">
             <div className="form-container">
               <h2 className="form-title">Login to Your Account</h2>
 
+              {/* email/password login form */}
               <form className="login-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label>Email Address</label>
@@ -111,18 +148,22 @@ const LoginPage = () => {
                   />
                 </div>
 
+                {/* Submit button triggers handleSubmit */}
                 <button type="submit" className="login-btn">
                   Login
                 </button>
               </form>
 
+              {/* Divider for alternative login methods */}
               <div className="divider">or</div>
 
+              {/* Google OAuth login button */}
               <GoogleLogin
                 onSuccess={handleGoogleLoginSuccess}
                 onError={handleGoogleLoginFailure}
               />
 
+              {/* Link to navigate to signup page */}
               <p className="signup-text">
                 Don't have an account?{" "}
                 <Link to="/signup" className="signup-link">
@@ -133,6 +174,8 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Footer component */}
       <Footer />
     </>
   );

@@ -1,8 +1,4 @@
-/* -------- BookCard.css ------- */
-/* This CSS styles the individual book cards .
-   It includes layout, hover effects, ratings, favorite button,
-   book cover image, title/author info, and action buttons. */
-
+/* BookCard Styling */
 /* Grid  */
 .book-grid {
   display: grid;

@@ -1,85 +1,85 @@
-/* ===== Overlay ===== */
+/* Overlay Styles */
 .login-prompt-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(58, 42, 28, 0.55); /* warm brown tint */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-  backdrop-filter: blur(4px);
-  animation: fadeIn 0.35s ease-in-out;
+  position: fixed; /* Fixes overlay to viewport */
+  inset: 0; /* Covers entire screen */
+  background: rgba(58, 42, 28, 0.55); 
+  display: flex; /* Enable flexbox for centering */
+  align-items: center; /* Vertical centering */
+  justify-content: center; /* Horizontal centering */
+  z-index: 10000; /* Place overlay above all content */
+  backdrop-filter: blur(4px); /* Add blur to background */
+  animation: fadeIn 0.35s ease-in-out; /* Fade-in effect */
 }
 
-/* ===== Modal ===== */
+/* Modal Styles */
 .login-prompt-modal {
-  background: linear-gradient(180deg, #fffaf3, #f4ede4); /* crème paper look */
-  border-radius: 20px;
-  padding: 34px 42px;
-  max-width: 420px;
-  width: 90%;
-  text-align: center;
-  position: relative;
-  box-shadow:
+  background: linear-gradient(180deg, #fffaf3, #f4ede4); 
+  border-radius: 20px; /* Rounded corners */
+  padding: 34px 42px; /* Internal spacing */
+  max-width: 420px; /* Limit width on larger screens */
+  width: 90%; /* Responsive width */
+  text-align: center; /* Center text */
+  position: relative; 
+  box-shadow: 
     0 20px 40px rgba(58, 42, 28, 0.35),
-    inset 0 0 0 1px rgba(212, 175, 55, 0.25); /* subtle gold edge */
+    inset 0 0 0 1px rgba(212, 175, 55, 0.25); 
   animation: slideDown 0.45s cubic-bezier(.25,.8,.25,1);
 }
 
-/* ===== Close Button ===== */
+/* Close Button */
 .close-btn {
-  position: absolute;
-  top: 14px;
-  right: 18px;
-  background: none;
-  border: none;
-  font-size: 22px;
-  cursor: pointer;
-  color: #6b4f35;
-  transition: transform 0.2s ease, color 0.2s ease;
+  position: absolute; /* Position relative to modal */
+  top: 14px; /* Top offset */
+  right: 18px; /* Right offset */
+  background: none; /* Remove default button background */
+  border: none; /* Remove default border */
+  font-size: 22px; /* Icon size */
+  cursor: pointer; /* Pointer on hover */
+  color: #6b4f35; 
+  transition: transform 0.2s ease, color 0.2s ease; 
 }
 
 .close-btn:hover {
-  color: #d4af37; /* gold */
-  transform: rotate(90deg);
+  color: #d4af37; /* Change color on hover */
+  transform: rotate(90deg); /* Rotate icon for feedback */
 }
 
-/* ===== Heading ===== */
+/* Modal Headings */
 .login-prompt-modal h2 {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 14px;
-  color: #4a3322; /* dark brown */
-  letter-spacing: 0.3px;
+  font-size: 24px; /* Large heading */
+  font-weight: 700; /* Bold text */
+  margin-bottom: 14px; /* Space below heading */
+  color: #4a3322; /* Heading color */
+  letter-spacing: 0.3px; /* Slight spacing for style */
 }
 
-/* ===== Description ===== */
+/* Modal Paragraph */
 .login-prompt-modal p {
-  font-size: 16px;
-  color: #6b4f35;
-  margin-bottom: 28px;
-  line-height: 1.6;
+  font-size: 16px; /* Body text size */
+  color: #6b4f35; /* Text color */
+  margin-bottom: 28px; /* Space below paragraph */
+  line-height: 1.6; 
 }
 
-/* ===== Buttons Container ===== */
+/* Button Container */
 .login-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
+  display: flex; /* Flexbox for buttons */
+  justify-content: center; /* Center buttons horizontally */
+  gap: 16px; /* Space between buttons */
 }
 
-/* ===== Login Button (Brown → Gold) ===== */
+/* Login Button */
 .login-btn {
   background: linear-gradient(135deg, #6b4f35, #d4af37);
-  color: #fffaf3;
-  border: none;
-  padding: 12px 28px;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow: 0 6px 14px rgba(107, 79, 53, 0.35);
+  color: #fffaf3; /* Text color */
+  border: none; /* Remove border */
+  padding: 12px 28px; /* Internal spacing */
+  font-size: 16px; /* Text size */
+  font-weight: 600; 
+  border-radius: 10px; /* Rounded corners */
+  cursor: pointer; /* Pointer on hover */
+  transition: all 0.25s ease; 
+  box-shadow: 0 6px 14px rgba(107, 79, 53, 0.35); 
 }
 
 .login-btn:hover {
@@ -87,49 +87,49 @@
   box-shadow: 0 10px 22px rgba(107, 79, 53, 0.45);
 }
 
-/* ===== Signup Button (Gold Outline / Luxe Feel) ===== */
+/* Signup Button */
 .signup-btn {
-  background: transparent;
-  color: #6b4f35;
-  border: 2px solid #d4af37;
-  padding: 10px 26px;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 10px;
-  cursor: pointer;
+  background: transparent; /* Transparent background */
+  color: #6b4f35; /* Text color */
+  border: 2px solid #d4af37; 
+  padding: 10px 26px; /* Internal spacing */
+  font-size: 16px; /* Text size */
+  font-weight: 600; /* Semi-bold text */
+  border-radius: 10px; /* Rounded corners */
+  cursor: pointer; /* Pointer on hover */
   transition: all 0.25s ease;
 }
 
 .signup-btn:hover {
   background: linear-gradient(135deg, #f7e7b4, #d4af37);
-  color: #4a3322;
-  transform: translateY(-3px);
+  color: #4a3322; /* Text color change */
+  transform: translateY(-3px); /* Lift effect */
   box-shadow: 0 8px 18px rgba(212, 175, 55, 0.45);
 }
 
-/* ===== Animations ===== */
+/* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 0; } /* Start transparent */
+  to { opacity: 1; } /* Fade to full opacity */
 }
 
 @keyframes slideDown {
-  from { transform: translateY(-35px) scale(0.96); opacity: 0; }
-  to { transform: translateY(0) scale(1); opacity: 1; }
+  from { transform: translateY(-35px) scale(0.96); opacity: 0; } /* Start above modal */
+  to { transform: translateY(0) scale(1); opacity: 1; } /* Slide into place */
 }
 
-/* ===== Mobile ===== */
+/* Moblie Responsive Styles */
 @media (max-width: 480px) {
   .login-prompt-modal {
-    padding: 26px 28px;
+    padding: 26px 28px; /* Reduce padding for small screens */
   }
 
   .login-buttons {
-    flex-direction: column;
+    flex-direction: column; /* Stack buttons vertically */
   }
 
   .login-btn,
   .signup-btn {
-    width: 100%;
+    width: 100%; /* Full width buttons for mobile */
   }
 }

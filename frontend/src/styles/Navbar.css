@@ -147,7 +147,7 @@
   transform: scale(1.1);
 }
 
-/* ===== Profile Popup Card ===== */
+/* Profile Popup Card */
 .profile-modal-backdrop {
   position: fixed;
   inset: 0;
@@ -282,7 +282,6 @@
   }
 }
 
-
 /* Hamburger Menu */
 .hamburger {
   display: none;
@@ -298,12 +297,10 @@
   transform: scale(1.1);
 }
 
-/* Mobile Menu */
 .mobile-menu {
   display: none;
 }
 
-/* Responsive Styles (Mobile) */
 @media (max-width: 768px) {
   .nav-links, .nav-auth { display: none; }
 
@@ -405,4 +402,3 @@
     transform: translateY(-2px) scale(1.05);
   }
 }
-
