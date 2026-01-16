@@ -28,7 +28,7 @@ app.use(cookieParser());
 // Enable CORS for frontend communication
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "https://bookify-discovery.vercel.app", // <-- Vercel frontend
+    origin: process.env.FRONTEND_URL, 
     credentials: true, // Allow cookies and auth headers
   })
 );
