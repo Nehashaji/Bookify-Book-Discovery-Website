@@ -25,18 +25,13 @@ app.use(express.json());
 // Parse cookies attached to incoming requests
 app.use(cookieParser());
 
-// CORS CONFIG (PRODUCTION READY)
+// Enable CORS for frontend communication
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    origin: process.env.FRONTEND_URL, 
+    credentials: true, // Allow cookies and auth headers
   })
 );
-
-// ALLOW PREFLIGHT REQUESTS 
-app.use(cors());
 
 /* Database Connection */
 mongoose
