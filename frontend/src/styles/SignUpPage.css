@@ -28,7 +28,7 @@ body {
   animation: fadeInUp 1s ease forwards;
 }
 
-/* LEFT — INFO */
+/* LEFT - INFO */
 .signup-left {
   flex: 1;
   padding: 60px 50px;
@@ -81,7 +81,7 @@ body {
   color: #ffd89c;
 }
 
-/* RIGHT — FORM */
+/* RIGHT - FORM */
 .signup-right {
   flex: 1;
   padding: 50px;

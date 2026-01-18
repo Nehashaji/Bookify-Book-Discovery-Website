@@ -1,14 +1,14 @@
 /* Overlay Styles */
 .login-prompt-overlay {
-  position: fixed; /* Fixes overlay to viewport */
-  inset: 0; /* Covers entire screen */
+  position: fixed; 
+  inset: 0; 
   background: rgba(58, 42, 28, 0.55); 
-  display: flex; /* Enable flexbox for centering */
-  align-items: center; /* Vertical centering */
-  justify-content: center; /* Horizontal centering */
-  z-index: 10000; /* Place overlay above all content */
-  backdrop-filter: blur(4px); /* Add blur to background */
-  animation: fadeIn 0.35s ease-in-out; /* Fade-in effect */
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  z-index: 10000; 
+  backdrop-filter: blur(4px); 
+  animation: fadeIn 0.35s ease-in-out; 
 }
 
 /* Modal Styles */

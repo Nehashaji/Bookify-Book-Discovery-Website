@@ -42,7 +42,7 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-/* API Routes */
+// API Routes //
 // Authentication routes (login, signup, Google OAuth)
 app.use("/auth", authRoutes);
 
@@ -52,7 +52,7 @@ app.use("/api/favorites", favRoutes);
 // Featured books routes for homepage content
 app.use("/api/featured", featuredRoutes);
 
-/* Protected User Route */
+// Protected User Route //
 // Fetch currently authenticated user using JWT
 app.get("/api/user/me", async (req, res) => {
   const authHeader = req.headers.authorization || "";
@@ -74,9 +74,9 @@ app.get("/api/user/me", async (req, res) => {
   }
 });
 
-/* Root Endpoint */
+// Root Endpoint //
 app.get("/", (req, res) => res.send("Bookify API is running..."));
 
-/* Server Startup */
+// Server Startup //
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -1,7 +1,6 @@
 /* BookModal Styling */
 
 /* Modal Overlay */
-/* Dark semi-transparent layer behind the modal to focus user attention */
 .modal-overlay {
   position: fixed; /* stay in viewport */
   inset: 0; /* cover entire screen */

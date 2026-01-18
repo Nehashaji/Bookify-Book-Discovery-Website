@@ -75,7 +75,7 @@ const googleSignup = async (req, res) => {
   }
 };
 
-// GOOGLE LOGIN (same as signup)
+// GOOGLE LOGIN 
 const googleLogin = googleSignup;
 
 module.exports = { signup, login, googleSignup, googleLogin };
